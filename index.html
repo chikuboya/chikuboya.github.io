@@ -1,72 +1,91 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<title>Chikuboya Games | ブラウザで遊べる無料ゲーム</title>
-<meta name="description" content="ブラウザで遊べる無料ゲームサイト。円形オセロNIPなどの戦略ゲームを公開しています。">
-<style>
-body{font-family:sans-serif;max-width:900px;margin:auto;line-height:1.7;padding:20px;color:#333;}
-nav a{margin-right:15px;text-decoration:none;color:#0066cc;}
-.game{border:1px solid #ddd;padding:20px;border-radius:10px;margin-top:20px;}
-footer{margin-top:60px;border-top:1px solid #ddd;padding-top:20px;font-size:14px;text-align:center;color:#666;}
-</style>
-</head>
+    <meta charset="UTF-8">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3649897440139100"
+     crossorigin="anonymous"></script>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>無料で遊べるオリジナルブラウザゲーム集 | chikuboya</title>
+    
+    <style>
+        body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; line-height: 1.8; color: #333; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #fcfcfc; }
+        header { text-align: center; border-bottom: 3px solid #333; margin-bottom: 40px; padding-bottom: 20px; }
+        h1 { font-size: 1.5rem; color: #222; }
+        .container { display: flex; flex-direction: column; gap: 30px; }
+        .game-card { border: 1px solid #e0e0e0; padding: 25px; border-radius: 12px; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .game-card h3 { margin-top: 0; color: #d32f2f; border-left: 5px solid #d32f2f; padding-left: 15px; }
+        .links { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px; }
+        .links a { display: inline-block; padding: 8px 16px; border: 1px solid #d32f2f; border-radius: 5px; text-decoration: none; color: #d32f2f; font-weight: bold; transition: 0.3s; }
+        .links a:hover { background: #d32f2f; color: white; }
+        .links a.main-play { background: #d32f2f; color: white; }
+        .article-link { background: #eee; padding: 15px; border-radius: 8px; margin-top: 10px; }
+        footer { margin-top: 60px; text-align: center; font-size: 0.8rem; color: #777; border-top: 1px solid #eee; padding-top: 20px; }
+    </style>
+</head>
 <body>
 
-<h1>Chikuboya Games</h1>
+<header>
+    <h1>無料で遊べるオリジナルブラウザゲーム集</h1>
+</header>
 
-<nav>
-<a href="/">ホーム</a>
-<a href="/Nip-web/">ゲーム</a>
-<a href="/how-to-play.html">遊び方</a>
-<a href="/strategy.html">攻略</a>
-<a href="/about.html">運営者</a>
-<a href="/privacy.html">プライバシー</a>
-<a href="/contact.html">お問い合わせ</a>
-</nav>
+<main class="container">
+    <section>
+        <p>このサイトでは、インストール不要ですぐに遊べるオリジナルのブラウザゲームを公開しています。シンプルなルールながら、考え方次第で奥深く楽しめるように設計しています。</p>
+    </section>
 
-<p>
-Chikuboya Gamesは、ブラウザで遊べるシンプルなゲームを公開するサイトです。
-ダウンロード不要で気軽に楽しめるゲームを制作しています。
-</p>
+    <section id="games">
+        <h2>ゲーム一覧</h2>
 
-<h2>公開ゲーム</h2>
+        <div class="game-card">
+            <h3>NIP（円形オセロ）</h3>
+            <p>通常のオセロを円形に拡張したボードゲームです。盤面がループすることで、これまでのオセロにはなかった戦略が生まれます。「円周をどう取るか」が勝敗を左右する、読み合いの深いゲームです。</p>
+            <div class="links">
+                <a href="/Nip-web/">▶︎ ゲームを始める</a> <a href="how-to-play.html">▶︎ ルール</a>
+                <a href="strategy.html">▶︎ 攻略完全ガイド</a>
+            </div>
+        </div>
 
-<div class="game">
-<h3>NIP（円形リバーシ）</h3>
+        <div class="game-card">
+            <h3>4人将棋</h3>
+            <p>4人で対戦する特殊な将棋。複数の相手の動きを同時に読み、「誰を攻め、いつ守るか」という状況判断力が試されます。</p>
+            <div class="links">
+                <a href="/Four-player-Shogi/">▶︎ ゲームを始める</a>
+                <a href="shogi4/rules.html">▶︎ ルール</a>
+                <a href="shogi4/strategy.html">▶︎ 攻略完全ガイド</a>
+            </div>
+        </div>
 
-<p>
-NIPは円形の盤面で遊ぶ新しいオセロ風ゲームです。
-通常のオセロとは違い、円形構造を利用した戦略が必要になります。
-</p>
+        <div class="game-card">
+            <h3>百富豪</h3>
+            <p>1〜100の数字を使う大富豪系カードゲーム。出すタイミングと読み合いが勝敗を分け、プレイするほど上達を実感できます。</p>
+            <div class="links">
+                <a href="hyakufugo/game.html" class="main-play">▶︎ ゲームを始める</a>
+                <a href="hyakufugo/rules.html">▶︎ ルール</a>
+                <a href="hyakufugo/strategy.html">▶︎ 攻略完全ガイド</a>
+            </div>
+        </div>
+    </section>
 
-<p>
-<a href="/Nip-web/">▶ ゲームをプレイ</a>
-</p>
-
-<p>
-<a href="/how-to-play.html">▶ 遊び方を見る</a>
-</p>
-
-</div>
-
-<h2>このサイトについて</h2>
-
-<p>
-このサイトでは、ブラウザで遊べるオリジナルゲームを公開しています。
-ルール解説や攻略情報も掲載しています。
-</p>
+    <section>
+        <h2>おすすめ記事</h2>
+        <div class="article-link">
+            <a href="thoughts.html"><strong>記事①：勝負に勝つための思考法</strong></a><br>
+            ゲーム全般に共通する、論理的な考え方を解説します。
+        </div>
+        <div class="article-link">
+            <a href="beginner-guide.html"><strong>記事②：初心者向けガイド</strong></a><br>
+            まずはどのゲームから遊ぶべきか、楽しみ方を紹介します。
+        </div>
+    </section>
+</main>
 
 <footer>
-
-<p>© 2026 Chikuboya Games</p>
-
-<p>
-<a href="/privacy.html">プライバシーポリシー</a> |
-<a href="/about.html">運営者情報</a>
-</p>
-
+    <p>
+        <a href="privacy.html">プライバシーポリシー</a> | 
+        <a href="contact.html">お問い合わせ</a>
+    </p>
+    <p>&copy; 2026 chikuboya</p>
 </footer>
 
 </body>
