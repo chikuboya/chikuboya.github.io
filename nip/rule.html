@@ -1,130 +1,121 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<title>NIP（ニップ）の遊び方 | Chikuboya Games</title>
+    <meta charset="UTF-8">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3649897440139100"
+     crossorigin="anonymous"></script>
 
-<meta name="description" content="円形オセロゲームNIP（ニップ）のルールと遊び方を詳しく解説。通常のオセロとの違いや円形盤面の特殊ルールを紹介します。">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIP（円形リバーシ） ルールガイド | ChikuGames</title>
+    
+    <style>
+        body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; line-height: 1.8; color: #333; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #fcfcfc; }
+        header { text-align: center; border-bottom: 3px solid #333; margin-bottom: 40px; padding-bottom: 20px; }
+        h1 { font-size: 1.5rem; color: #222; }
+        h2 { color: #d32f2f; border-left: 5px solid #d32f2f; padding-left: 15px; margin-top: 40px; font-size: 1.3rem; }
+        h3 { font-size: 1.1rem; margin-top: 25px; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+        .container { background: white; padding: 30px; border-radius: 12px; border: 1px solid #e0e0e0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        
+        /* 画像レイアウト用 */
+        .image-comparison { display: flex; gap: 15px; margin: 20px 0; flex-wrap: wrap; justify-content: center; }
+        .image-box { flex: 1; min-width: 280px; text-align: center; }
+        .image-box img { max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #eee; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .image-caption { font-size: 0.85rem; color: #666; margin-top: 8px; font-weight: bold; }
 
-<style>
-body{
-font-family:sans-serif;
-max-width:900px;
-margin:auto;
-line-height:1.8;
-padding:20px;
-color:#333;
-}
-
-nav a{
-margin-right:15px;
-text-decoration:none;
-color:#0066cc;
-}
-
-h1{
-border-bottom:2px solid #444;
-padding-bottom:10px;
-}
-
-footer{
-margin-top:60px;
-border-top:1px solid #ddd;
-padding-top:20px;
-font-size:14px;
-text-align:center;
-color:#666;
-}
-</style>
+        ul { padding-left: 20px; }
+        li { margin-bottom: 10px; }
+        .highlight { font-weight: bold; color: #d32f2f; }
+        .btn-back { display: inline-block; margin-top: 30px; padding: 10px 20px; background: #333; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: 0.3s; }
+        .btn-back:hover { background: #555; }
+        footer { margin-top: 60px; text-align: center; font-size: 0.8rem; color: #777; border-top: 1px solid #eee; padding-top: 20px; }
+    </style>
 </head>
-
 <body>
 
-<h1>NIP（ニップ）の遊び方</h1>
+<header>
+    <h1>NIP（円形リバーシ） ルールガイド</h1>
+</header>
 
-<nav>
-<a href="/">ホーム</a>
-<a href="/index.html">ゲームをプレイ</a>
-<a href="/strategy.html">攻略ガイド</a>
-</nav>
+<main class="container">
+    <section>
+        <h2>1. ゲームの概要</h2>
+        <p>NIPは、8×8のボードから四隅などを除いた全52マスで行う、新しい形のリバーシです。最大の特徴は、盤面の最も外側が円のように繋がっている<span class="highlight">「円周（サーキュラー）構造」</span>にあります。</p>
+    </section>
 
-<h2>1. NIP（ニップ）とは？</h2>
+    <section>
+        <h2>2. 基本的な遊び方</h2>
+        <ul>
+            <li><strong>対局の流れ：</strong> 黒（先手）と白（後手）が交互に石を置いていきます。自分の石で相手の石を挟むと、自分の色に塗り替えることができます。</li>
+            <li><strong>パス：</strong> 自分の手番で石を置ける場所がない場合は、自動的にパスとなります。</li>
+            <li><strong>勝利条件：</strong> 盤面がすべて埋まるか、両者ともに打てる場所がなくなった時点で対局終了です。最終的に<span class="highlight">盤面の石の数が多いプレイヤーの勝利</span>となります。</li>
+        </ul>
+    </section>
 
-<p>
-NIP（ニップ）は、通常のオセロ（リバーシ）を円形の盤面に拡張した戦略ボードゲームです。
-盤面は8本の放射状ラインと、内周・中周・外周の3つの円で構成されており、
-それぞれが交差して合計24マスのフィールドを作っています。
-</p>
+    <section>
+        <h2>3. 特殊ルール：円周の連続性</h2>
+        <p>一番外側の「円周」にある20マスは、時計回り・反時計回りに行き止まりなく繋がっています。</p>
+        
+        <h3>● 円周で挟む</h3>
+        <p>外周に石を置いた際、その円周に沿って時計回り、または反時計回りに相手の石を挟んでいる場合、それらをすべて裏返すことができます。これにより、一見挟まれていないような場所からでも、円を一周するようにして大量逆転が可能です。</p>
+        
+        <div class="image-comparison">
+            <div class="image-box">
+                <img src="enshu-torikata-mae.png" alt="円周で挟む前">
+                <p class="image-caption">【挟む前】</p>
+            </div>
+            <div class="image-box">
+                <img src="enshu-torikata-ato.png" alt="円周で挟んだ後">
+                <p class="image-caption">【挟んだ後】一気に裏返る</p>
+            </div>
+        </div>
 
-<p>
-プレイヤーは黒と白の石を交互に配置し、相手の石を挟むことで自分の色に裏返していきます。
-基本的なルールはオセロと似ていますが、円形の盤面によって独特の戦略が生まれるのが特徴です。
-</p>
+        <h3>● ケース1：挟めていない場合（逆転不可）</h3>
+        <p>円周上の空きマスが残り1つのとき、その空きマス以外のすべてが「黒」だったとします。そこに「白」を置いたとしても、その白石は円周上のどこにも「別の白石」と対になって相手を挟んでいないため、黒石をひっくり返すことはできません。</p>
+        
+        <div class="image-comparison">
+            <div class="image-box">
+                <img src="enshu-saigo-allblack-mae.png" alt="全黒の空きマスに置く前">
+                <p class="image-caption">【置く前】周囲はすべて黒</p>
+            </div>
+            <div class="image-box">
+                <img src="enshu-saigo-allblack-ato.png" alt="全黒の空きマスに置いた後">
+                <p class="image-caption">【置いた後】挟めないので変化なし</p>
+            </div>
+        </div>
 
-<h2>2. 円周上の特殊ルール（重要）</h2>
+        <h3>● ケース2：混ざっている場合（逆転可能）</h3>
+        <p>円周上の空きマスが残り1つのとき、その空きマス以外に「白」と「黒」が混ざっている状態で「白」を置いたとします。この場合、新しく置いた白石から左右それぞれを見て、<span class="highlight">次に現れる白石があるところまで</span>の間にある黒石をすべて挟んでひっくり返すことができます。</p>
+        
+        <div class="image-comparison">
+            <div class="image-box">
+                <img src="enshu-saigo-blackwhite-mae.png" alt="白黒混在の空きマスに置く前">
+                <p class="image-caption">【置く前】白と黒が混ざっている</p>
+            </div>
+            <div class="image-box">
+                <img src="enshu-saigo-blackwhite-ato.png" alt="白黒混在の空きマスに置いた後">
+                <p class="image-caption">【置いた後】次の白石までを裏返す</p>
+            </div>
+        </div>
+    </section>
 
-<p>
-NIPの最大の特徴は「円周に沿った挟み込み」です。
-外周・中周・内周の各円は途切れることなくループしており、
-通常のオセロとは異なる挟み込みが発生します。
-</p>
+    <section>
+        <h2>4. 攻略のヒント</h2>
+        <p>普通のオセロ（リバーシ）では、四隅の「角」を取ることが最も重要です。しかし、円形の盤面を持つNIPでは、決まった角が存在しません。</p>
+        <p>その代わりに重要となるのが<span class="highlight">「円周全体の支配」</span>です。特定の数マスだけでなく、円周のつながり全体を意識して自分の石を配置し、どこからでも逆転を狙える（あるいは防げる）状態を維持することが勝利への鍵となります。</p>
+    </section>
 
-<p>
-例えば、円周上で時計回りに
-「黒 → 白 → 白 → 黒」
-と並んでいる場合、その間にある白の石はすべて黒に裏返されます。
-これは円形のラインがループしているためです。
-</p>
-
-<p>
-このルールにより、盤面の端という概念が存在しません。
-一見安全に見える位置でも、円周をぐるりと回って挟まれる可能性があるため、
-常に全体の配置を意識した戦略が必要になります。
-</p>
-
-<h2>3. 放射状ライン</h2>
-
-<p>
-盤面には中心から外側に向かって8本の放射状ラインが伸びています。
-このラインでは通常のオセロと同じように、相手の石を自分の石で挟むことで裏返すことができます。
-</p>
-
-<p>
-特に中心付近のマスは多くのラインと接続しているため、
-ここを制することで複数方向に影響を与えることができます。
-序盤では中央付近のマスを意識すると有利にゲームを進めることができます。
-</p>
-
-<h2>4. 勝利条件</h2>
-
-<p>
-すべてのマスが埋まるか、両プレイヤーが石を置けなくなった時点でゲーム終了となります。
-その時点で盤面にある石の数を数え、より多くの石を持っているプレイヤーが勝利です。
-</p>
-
-<p>
-円形の盤面では、1手で複数方向の石を同時に裏返せることがあります。
-このような「多重キャプチャ」を狙うことで一気に形勢を逆転することも可能です。
-</p>
-
-<p>
-ルールはシンプルですが、円形特有の戦略が生まれる奥深いゲームです。
-ぜひ実際にプレイしてコツをつかんでみてください。
-</p>
-
-<p>
-<a href="/index.html">▶ NIPをプレイする</a>
-</p>
+    <div style="text-align: center;">
+        <a href="index.html" class="btn-back">ゲームに戻る</a>
+    </div>
+</main>
 
 <footer>
-
-<p>© 2026 Chikuboya Games</p>
-
-<p>
-<a href="/privacy.html">プライバシーポリシー</a> |
-<a href="/about.html">運営者情報</a>
-</p>
-
+    <p>
+        <a href="../privacy.html">プライバシーポリシー</a> | 
+        <a href="../contact.html">お問い合わせ</a> | 
+        <a href="../index.html">ホーム</a>
+    </p>
+    <p>&copy; 2026 ChikuGames</p>
 </footer>
 
 </body>
