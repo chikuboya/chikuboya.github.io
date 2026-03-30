@@ -3,90 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>お問い合わせ | Contact</title>
+    <title>お問い合わせ | ChikuGames</title>
+    
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 600px;
-            margin: 40px auto;
-            padding: 0 20px;
-            background-color: #f9f9f9;
+        body { 
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; 
+            line-height: 1.8; 
+            color: #333; 
+            max-width: 900px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            background-color: #fcfcfc; 
         }
-        .container {
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        header { 
+            text-align: center; 
+            border-bottom: 3px solid #333; 
+            margin-bottom: 40px; 
+            padding-bottom: 20px; 
         }
-        h1 {
-            border-bottom: 2px solid #007bff;
-            padding-bottom: 10px;
-            font-size: 24px;
+        h1 { font-size: 1.5rem; color: #222; }
+        .container { display: flex; flex-direction: column; gap: 30px; }
+        
+        .contact-card { 
+            border: 1px solid #e0e0e0; 
+            padding: 30px; 
+            border-radius: 12px; 
+            background: white; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
         }
-        p {
-            margin-bottom: 20px;
+        .contact-card h2 { 
+            margin-top: 0; 
+            color: #d32f2f; 
+            border-left: 5px solid #d32f2f; 
+            padding-left: 15px; 
+            font-size: 1.3rem;
         }
+        
         .btn-container {
-            text-align: center;
             margin: 30px 0;
-        }
-        .contact-button {
-            display: inline-block;
-            background-color: #007bff;
-            color: #fff;
-            padding: 15px 30px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-        .contact-button:hover {
-            background-color: #0056b3;
-        }
-        .info-box {
-            background-color: #e9ecef;
-            padding: 15px;
-            border-radius: 5px;
-            font-size: 0.9em;
-        }
-        .footer {
-            margin-top: 40px;
             text-align: center;
-            font-size: 0.8em;
-            color: #777;
         }
+        .contact-button { 
+            display: inline-block; 
+            padding: 15px 40px; 
+            background: #d32f2f; 
+            color: white; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            font-weight: bold; 
+            font-size: 1.1rem;
+            transition: 0.3s; 
+        }
+        .contact-button:hover { 
+            background: #b71c1c; 
+            box-shadow: 0 4px 12px rgba(211, 47, 47, 0.3);
+        }
+
+        .notice-list {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+        .notice-list ul {
+            margin: 10px 0 0 0;
+            padding-left: 20px;
+        }
+        
+        footer { 
+            margin-top: 60px; 
+            text-align: center; 
+            font-size: 0.8rem; 
+            color: #777; 
+            border-top: 1px solid #eee; 
+            padding-top: 20px; 
+        }
+        footer a { color: #777; text-decoration: none; margin: 0 5px; }
+        footer a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
 
-<div class="container">
+<header>
     <h1>お問い合わせ</h1>
-    
-    <p>管理物件（シェアハウス等）への入居相談、またはアプリ「Nip」に関する不具合報告・ご意見などは、以下のフォームよりお気軽にご連絡ください。</p>
-    
-    <p>通常、2〜3営業日以内に <strong>chikuboyaa@gmail.com</strong> よりお返事いたします。</p>
+</header>
 
-    <div class="btn-container">
-        <a href="https://forms.gle/yq3o4NYEHRjarK4z9" class="contact-button" target="_blank" rel="noopener noreferrer">
-            お問い合わせフォームを開く
-        </a>
-    </div>
+<main class="container">
+    <section class="contact-card">
+        <h2>お問い合わせフォーム</h2>
+        <p>
+            ChikuGamesで公開しているゲーム（NIP、4人将棋、百富豪など）に関する不具合報告、改善のアイデア、感想などは以下のフォームよりお送りください。
+        </p>
 
-    <div class="info-box">
-        <strong>【ご注意】</strong>
-        <ul>
-            <li>メールアドレスの入力ミスにご注意ください。</li>
-            <li>数日経過しても返信がない場合は、迷惑メールフォルダをご確認いただくか、再度送信をお願いいたします。</li>
-            <li>バグ報告の際は、ご利用の機種名（Android/iOS）を添えていただけるとスムーズです。</li>
-        </ul>
-    </div>
-</div>
+        <div class="btn-container">
+            <a href="https://forms.gle/tZPQqbWnDU5dzAkS7" class="contact-button" target="_blank" rel="noopener noreferrer">
+                フォーム入力画面へ移動する
+            </a>
+        </div>
 
-<div class="footer">
-    &copy; 2026 Chikuboya. All rights reserved.
-</div>
+        <div class="notice-list">
+            <strong>お問い合わせ時のご注意</strong>
+            <ul>
+                <li>通常、2〜3営業日以内に <strong>chikuboyaa@gmail.com</strong> より返信いたします。</li>
+                <li>バグ報告の際は、ご利用のブラウザ（Chrome, Safari等）や端末を記載いただけるとスムーズです。</li>
+                <li>すべてのお問い合わせに必ずしもお返事できない場合がありますが、いただいたご意見はすべて開発の参考にさせていただきます。</li>
+            </ul>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>
+        <a href="privacy.html">プライバシーポリシー</a> | 
+        <a href="contact.html">お問い合わせ</a> | 
+        <a href="index.html">ホーム</a>
+    </p>
+    <p>&copy; 2026 ChikuGames</p>
+</footer>
 
 </body>
 </html>
