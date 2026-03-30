@@ -3,31 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nip Game - Bitboard Optimized</title>
+    <title>NIP（円形オセロ） | ChikuGames</title>
     <style>
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; display: flex; flex-direction: column; align-items: center; background-color: #e0e0e0; margin: 0; padding: 20px; }
-        #menu-screen, #game-screen { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); text-align: center; max-width: 650px; width: 100%; }
-        h1 { margin-top: 0; color: #333; }
-        #game-board { background-color: #7fb069; border: 3px solid #444; cursor: pointer; border-radius: 5px; max-width: 100%; height: auto; }
+        /* 全体トーンをChikuGamesに統一 */
+        body { 
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; 
+            line-height: 1.8; 
+            color: #333; 
+            max-width: 900px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            background-color: #fcfcfc; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header { 
+            width: 100%;
+            text-align: center; 
+            border-bottom: 3px solid #333; 
+            margin-bottom: 40px; 
+            padding-bottom: 20px; 
+        }
+
+        h1 { font-size: 1.5rem; color: #222; margin: 0; }
+
+        /* カードデザインへの変更 */
+        #menu-screen, #game-screen { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 12px; 
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+            text-align: center; 
+            max-width: 650px; 
+            width: 100%; 
+            box-sizing: border-box;
+        }
+
+        h2 { 
+            color: #d32f2f; 
+            border-left: 5px solid #d32f2f; 
+            padding-left: 15px; 
+            font-size: 1.3rem;
+            text-align: left;
+            margin-bottom: 25px;
+        }
+
+        /* ボードとステータス */
+        #game-board { 
+            background-color: #7fb069; 
+            border: 3px solid #444; 
+            cursor: pointer; 
+            border-radius: 8px; 
+            max-width: 100%; 
+            height: auto; 
+            margin: 10px 0;
+        }
+
+        .setting-group { 
+            margin: 20px 0; 
+            font-size: 16px; 
+            text-align: left;
+            background: #f9f9f9;
+            padding: 10px 15px;
+            border-radius: 8px;
+        }
+
+        /* ボタンデザインの統一 */
         .controls { margin-top: 15px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
-        button, .link-button { padding: 12px 24px; font-size: 16px; cursor: pointer; border: none; border-radius: 5px; background-color: #444; color: white; transition: background 0.2s; text-decoration: none; display: inline-block; }
-        button:hover, .link-button:hover { background-color: #666; }
-        #btn-pvp { background-color: #2c3e50; }
-        #btn-pve { background-color: #27ae60; }
-        #btn-back-home { background-color: #7f8c8d; margin-top: 25px; font-size: 14px; }
-        #hint-btn { background-color: #f39c12; }
-        #hint-btn:hover { background-color: #d35400; }
-        .setting-group { margin: 15px 0; font-size: 18px; }
-        select { padding: 8px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc; }
-        #status-label { font-size: 22px; font-weight: bold; margin-bottom: 10px; color: #333; }
-        #settings-display { font-size: 18px; font-weight: bold; color: #000000; margin-bottom: 15px; background: #f0f0f0; padding: 8px 15px; border-radius: 5px; display: inline-block; border: 1px solid #ccc; }
-        #result-label { color: #e74c3c; font-size: 28px; font-weight: bold; display: none; margin: 15px; padding: 10px; border: 2px solid #e74c3c; border-radius: 10px; }
+        
+        button, .link-button { 
+            padding: 10px 20px; 
+            font-size: 16px; 
+            cursor: pointer; 
+            border: none; 
+            border-radius: 5px; 
+            background-color: #555; 
+            color: white; 
+            transition: 0.3s; 
+            text-decoration: none; 
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        button:hover, .link-button:hover { opacity: 0.8; }
+
+        /* メインアクションは赤 */
+        #btn-pvp, #btn-pve, #reset-btn { background-color: #d32f2f; }
+        
+        #btn-back-home { background-color: #eee; color: #333; border: 1px solid #ccc; font-size: 14px; }
+        
+        #status-label { font-size: 1.1rem; font-weight: bold; margin: 15px 0; color: #222; }
+        
+        #settings-display { 
+            font-size: 0.9rem; 
+            color: #666; 
+            margin-bottom: 10px; 
+            background: #fff; 
+            padding: 5px 15px; 
+            border-radius: 20px; 
+            border: 1px solid #eee;
+            display: inline-block;
+        }
+
+        #result-label { 
+            color: #d32f2f; 
+            font-size: 24px; 
+            font-weight: bold; 
+            margin: 15px; 
+            padding: 10px; 
+            border: 2px solid #d32f2f; 
+            border-radius: 10px; 
+            background: #fff5f5;
+        }
+
+        footer { 
+            width: 100%;
+            margin-top: 60px; 
+            text-align: center; 
+            font-size: 0.8rem; 
+            color: #777; 
+            border-top: 1px solid #eee; 
+            padding-top: 20px; 
+        }
+        footer a { color: #777; text-decoration: none; margin: 0 5px; }
     </style>
 </head>
 <body>
 
+    <header>
+        <h1>NIP（円形オセロ）</h1>
+    </header>
+
     <div id="menu-screen">
-        <h1>Nip Game</h1>
+        <h2>ゲーム設定</h2>
         <div class="setting-group">
             CPUレベル: 
             <select id="lv-select" onchange="window.selectedLv = parseInt(this.value)">
@@ -44,28 +155,31 @@
                 <option value="black">黒 (先手)</option>
             </select>
         </div>
-        <button id="btn-pvp">対人戦 (PvP)</button>
-        <button id="btn-pve">CPU戦 (PvE)</button>
+        <div class="controls">
+            <button id="btn-pvp">対人戦を開始</button>
+            <button id="btn-pve">CPU戦を開始</button>
+        </div>
         
-        <div style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 10px;">
-            <a href="https://chikuboya.github.io/" class="link-button" id="btn-back-home">Chikuboya Gamesトップへ戻る</a>
+        <div style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
+            <a href="../index.html" class="link-button" id="btn-back-home">ゲーム一覧に戻る</a>
         </div>
     </div>
 
     <div id="game-screen" style="display:none;">
         <div class="controls" style="margin-bottom: 15px;">
-            <button id="menu-btn">メニューへ</button>
+            <button id="menu-btn">← メニュー</button>
             <button id="reset-btn">リセット</button>
         </div>
 
         <div id="settings-display"></div>
         <div id="status-label">準備中...</div>
         <div id="result-label"></div>
+        
         <canvas id="game-board" width="600" height="650"></canvas>
 
         <div class="controls">
             <button id="undo-btn">待った</button>
-            <button id="hint-btn">ヒント</button>
+            <button id="hint-btn" style="background-color: #f39c12;">ヒント</button>
         </div>
     </div>
 
