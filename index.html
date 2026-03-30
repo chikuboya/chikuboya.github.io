@@ -13,14 +13,65 @@
         header { text-align: center; border-bottom: 3px solid #333; margin-bottom: 40px; padding-bottom: 20px; }
         h1 { font-size: 1.5rem; color: #222; }
         .container { display: flex; flex-direction: column; gap: 30px; }
-        .game-card { border: 1px solid #e0e0e0; padding: 25px; border-radius: 12px; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        
+        /* ゲームカード全体のレイアウト */
+        .game-card { 
+            border: 1px solid #e0e0e0; 
+            padding: 25px; 
+            border-radius: 12px; 
+            background: white; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            display: flex; /* 横並び */
+            gap: 20px;
+            align-items: flex-start; /* 上揃え */
+        }
+        
+        /* アイコン枠のスタイル（自動正方形調整） */
+        .game-icon {
+            flex: 0 0 120px; /* PC時の基準幅 */
+            width: 120px;
+            aspect-ratio: 1 / 1; /* ★強制的に正方形にする */
+            background-color: #eee; /* 画像がない時の色 */
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* 画像の自動調整 */
+        .game-icon img {
+            width: 100%;
+            height: 100%;
+            /* ★画像のアスペクト比を保ったまま、枠を埋めるように拡大縮小・トリミング */
+            object-fit: cover; 
+            /* ★画像の中心を基準にする */
+            object-position: center; 
+        }
+
+        /* 説明文エリア */
+        .game-info {
+            flex: 1;
+        }
         .game-card h3 { margin-top: 0; color: #d32f2f; border-left: 5px solid #d32f2f; padding-left: 15px; }
+        
         .links { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px; }
         .links a { display: inline-block; padding: 8px 16px; border: 1px solid #d32f2f; border-radius: 5px; text-decoration: none; color: #d32f2f; font-weight: bold; transition: 0.3s; }
         .links a:hover { background: #d32f2f; color: white; }
-        .links a.main-play { background: #d32f2f; color: white; }
+        
         .article-link { background: #eee; padding: 15px; border-radius: 8px; margin-top: 10px; }
         footer { margin-top: 60px; text-align: center; font-size: 0.8rem; color: #777; border-top: 1px solid #eee; padding-top: 20px; }
+
+        /* スマホ用レイアウト：縦並びに戻す */
+        @media (max-width: 600px) {
+            .game-card { flex-direction: column; align-items: center; text-align: center; padding: 20px; }
+            .game-icon { 
+                flex: 0 0 100px; /* スマホ時は少し小さく */
+                width: 100px; 
+            }
+            .game-card h3 { border-left: none; padding-left: 0; border-bottom: 2px solid #d32f2f; display: inline-block; padding-bottom: 5px; margin-top: 10px; }
+            .links { justify-content: center; }
+        }
     </style>
 </head>
 <body>
@@ -38,31 +89,47 @@
         <h2>ゲーム一覧</h2>
 
         <div class="game-card">
-            <h3>NIP（円形リバーシ）</h3>
-            <p>通常のオセロ（リバーシ）を円形に拡張したボードゲームです。盤面がループすることで、これまでのリバーシにはなかった戦略が生まれます。「円周をどう取るか」が勝敗を左右する、読み合いの深いゲームです。対人か対CPUか選べます。対CPUはレベル1~10まで。待ったやヒント機能付き。</p>
-            <div class="links">
-                <a href="/nip/">▶︎ ゲームを始める</a> <a href="/nip/rule.html">▶︎ ルール</a>
-                <a href="/nip/strategy.html">▶︎ 攻略完全ガイド</a>
+            <div class="game-icon">
+                <img src="img/nip.icon.png" alt="NIP アイコン">
+            </div>
+            <div class="game-info">
+                <h3>NIP（円形リバーシ）</h3>
+                <p>通常のオセロ（リバーシ）を円形に拡張したボードゲームです。盤面がループすることで、これまでのリバーシにはなかった戦略が生まれます。「円周をどう取るか」が勝敗を左右する、読み合いの深いゲームです。対人・対CPU（Lv1~10）選択可能。ヒント機能付き。</p>
+                <div class="links">
+                    <a href="/nip/">▶︎ ゲームを始める</a>
+                    <a href="/nip/rule.html">▶︎ ルール</a>
+                    <a href="/nip/strategy.html">▶︎ 攻略ガイド</a>
+                </div>
             </div>
         </div>
 
         <div class="game-card">
-            <h3>4人将棋</h3>
-            <p>4人で対戦する特殊な将棋。複数の相手の動きを同時に読み、「誰を攻め、いつ守るか」という状況判断力が試されます。使う駒は限定されていて、「王」「金」「銀」「歩」「飛車または角」です。対人と対CPUが選べます。</p>
-            <div class="links">
-                <a href="/four-player-shogi/">▶︎ ゲームを始める</a>
-                <a href="/four-player-shogi/rule.html">▶︎ ルール</a>
-                <a href="/four-player-shogi/strategy.html">▶︎ 攻略完全ガイド</a>
+            <div class="game-icon">
+                <img src="img/four-player-shogi.icon.png" alt="4人将棋 アイコン">
+            </div>
+            <div class="game-info">
+                <h3>4人将棋</h3>
+                <p>4人で対戦する特殊な将棋。複数の相手の動きを同時に読み、「誰を攻め、いつ守るか」という状況判断力が試されます。「王」「金」「銀」「歩」「飛or角」の限定した駒を使用。対人・対CPUが選択可能。</p>
+                <div class="links">
+                    <a href="/four-player-shogi/">▶︎ ゲームを始める</a>
+                    <a href="/four-player-shogi/rule.html">▶︎ ルール</a>
+                    <a href="/four-player-shogi/strategy.html">▶︎ 攻略ガイド</a>
+                </div>
             </div>
         </div>
 
         <div class="game-card">
-            <h3>百富豪</h3>
-            <p>1〜100の1組の数字を使う大富豪系カードゲーム。出すタイミングと読み合いが勝敗を分け、プレイするほど上達を実感できます。対CPUで戦えます。</p>
-            <div class="links">
-                <a href="/100-fugo/">▶︎ ゲームを始める</a>
-                <a href="/100-fugo/rule.html">▶︎ ルール</a>
-                <a href="/100-fugo/strategy.html">▶︎ 攻略完全ガイド</a>
+            <div class="game-icon">
+                <img src="img/100-fugo.icon.png" alt="百富豪 アイコン">
+            </div>
+            <div class="game-info">
+                <h3>百富豪</h3>
+                <p>1〜100の1組の数字を使う大富豪系カードゲーム。出すタイミングと読み合いが勝敗を分けます。対CPUで戦えます。</p>
+                <div class="links">
+                    <a href="/100-fugo/">▶︎ ゲームを始める</a>
+                    <a href="/100-fugo/rule.html">▶︎ ルール</a>
+                    <a href="/100-fugo/strategy.html">▶︎ 攻略ガイド</a>
+                </div>
             </div>
         </div>
     </section>
@@ -82,7 +149,7 @@
 
 <footer>
     <p>
-        <a href="about.html">運営者情報</a> |        
+        <a href="about.html">運営者情報</a> | 
         <a href="privacy.html">プライバシーポリシー</a> | 
         <a href="contact.html">お問い合わせ</a> | 
         <a href="index.html">ホーム</a>
