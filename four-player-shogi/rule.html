@@ -2,68 +2,102 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3649897440139100"
+     crossorigin="anonymous"></script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>準備中 | オリジナルブラウザゲーム集</title>
+    <title>四人将棋 ルールガイド | chikuboya</title>
+    
     <style>
-        body {
-            font-family: "Helvetica Neue", Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f7f6;
-            color: #333;
-            text-align: center;
-        }
-        .container {
-            background: white;
-            padding: 40px 60px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            max-width: 500px;
-        }
-        .icon {
-            font-size: 50px;
-            margin-bottom: 20px;
-        }
-        h1 {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-            color: #2c3e50;
-        }
-        p {
-            line-height: 1.6;
-            color: #666;
-            margin-bottom: 30px;
-        }
-        .btn-home {
-            display: inline-block;
-            padding: 12px 30px;
-            background-color: #d32f2f;
-            color: white;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        .btn-home:hover {
-            background-color: #b71c1c;
-            transform: translateY(-2px);
-        }
+        body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; line-height: 1.8; color: #333; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #fcfcfc; }
+        header { text-align: center; border-bottom: 3px solid #333; margin-bottom: 40px; padding-bottom: 20px; }
+        h1 { font-size: 1.5rem; color: #222; }
+        h2 { color: #d32f2f; border-left: 5px solid #d32f2f; padding-left: 15px; margin-top: 40px; font-size: 1.3rem; }
+        h3 { font-size: 1.1rem; margin-top: 25px; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+        .container { background: white; padding: 30px; border-radius: 12px; border: 1px solid #e0e0e0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .image-placeholder { background: #eee; border: 1px dashed #999; padding: 40px; text-align: center; margin: 20px 0; border-radius: 8px; }
+        .image-placeholder img { max-width: 100%; height: auto; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        ul, ol { padding-left: 20px; }
+        li { margin-bottom: 10px; }
+        .highlight { font-weight: bold; color: #d32f2f; }
+        .btn-back { display: inline-block; margin-top: 30px; padding: 10px 20px; background: #333; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: 0.3s; }
+        .btn-back:hover { background: #555; }
+        footer { margin-top: 60px; text-align: center; font-size: 0.8rem; color: #777; border-top: 1px solid #eee; padding-top: 20px; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="icon">🛠️</div>
-    <h1>Coming Soon...</h1>
+<header>
+    <h1>四人将棋 ルールガイド</h1>
+</header>
+
+<main class="container">
+    <section>
+        <h2>1. ゲームの概要</h2>
+        <p>四人将棋は、9x9の盤面で4人のプレイヤーが同時に戦うサバイバル将棋です。戦略的な「王の獲得数」と「生存」が勝敗を分ける独自のルールを採用しています。</p>
+        <div class="image-placeholder">
+            <img src="shokihaichi.png" alt="四人将棋 初期配置図">
+            <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">【初期配置図】</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>2. 勝利条件と順位</h2>
+        <h3>勝利の判定</h3>
+        <ul>
+            <li><strong>決着時：</strong> 2人が脱落した時点で、<span class="highlight">最も多くの「王」を獲得していた人</span>が勝者となります。</li>
+            <li><strong>サドンデス：</strong> 2人が脱落した際、残った二人の「王」の獲得数が同じ場合はサドンデスに突入します。その場合、最後まで生き残っていた人が勝者となります。</li>
+        </ul>
+        <h3>順位の決定</h3>
+        <ul>
+            <li><strong>生存優先：</strong> 脱落していないことが最優先されます。</li>
+            <li><strong>同条件内の比較：</strong> 「脱落していない人同士」または「脱落した人同士」の順位は、<span class="highlight">獲得した「王」の数</span>で決まります。</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>3. 基本ルール</h2>
+        <ul>
+            <li><strong>手番の順序：</strong> 南（自分）→ 西 → 北 → 東 の時計回りで進行します。</li>
+            <li><strong>脱落：</strong> 自分の「玉」を取られたプレイヤーはその場で負けとなります。盤上の駒はグレーアウトされて動かすことはできなくなりますが、<span class="highlight">他のプレイヤーは通常の駒と同様に取って自分の持ち駒として使うことができます。</span></li>
+            <li><strong>王の獲得：</strong> 相手の王を取ると、勝利判定に関わる「王」のカウントが増えます。ただし、<span class="highlight">王を持ち駒として盤面に打つことはできません。</span></li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>4. 特殊ルール（重要）</h2>
+        
+        <h3>① 成りのルール</h3>
+        <p>自分から見て奥の3段（または3列）が「敵陣」となり、そこに駒が入るか、そこから出る際に駒を「成る」ことができます（南：1〜3段目、西：7〜9列目、北：7〜9段目、東：1〜3列目）。</p>
+
+        <h3>② 落武者狩り</h3>
+        <p>王を取られて脱落したプレイヤーの駒はグレーアウトされ、自ら動くことはありません。しかし、生存しているプレイヤーはその駒の位置に自分の駒を動かせば、通常通り駒を獲得し、自分の持ち駒として再利用することができます。</p>
+
+        <h3>③ 二歩と行き所のない駒</h3>
+        <ul>
+            <li><strong>二歩：</strong> <span class="highlight">自分の歩がすでに置かれている列（歩の左右ではなく前後）</span>に、新たに自分の歩を置くことはできません。</li>
+            <li><strong>行き所のない駒：</strong> 次に動ける場所がない位置（例：南のプレイヤーが一番奥の1段目に歩を打つなど）には駒を打てません。</li>
+        </ul>
+
+        <h3>④ 千日手</h3>
+        <ul>
+            <li><strong>千日手：</strong> 同一局面が3回現れる指し手は「千日手」となり、打つことができません。</li>
+        </ul>
+    </section>
+
+    <div style="text-align: center;">
+        <a href="index.html" class="btn-back">ゲームに戻る</a>
+    </div>
+</main>
+
+<footer>
     <p>
-        こちらのページは現在、鋭意制作中です。<br>
-        より深くゲームを楽しめる内容を準備しておりますので、公開まで今しばらくお待ちください。
+        <a href="../privacy.html">プライバシーポリシー</a> | 
+        <a href="../contact.html">お問い合わせ</a> |
+        <a href="../index.html">ホーム</a>
     </p>
-    <a href="index.html" class="btn-home">トップページへ戻る</a>
-</div>
+    <p>&copy; 2026 ChikuGames</p>
+</footer>
 
 </body>
 </html>
