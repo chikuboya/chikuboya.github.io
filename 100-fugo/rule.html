@@ -3,28 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>百富豪（ヒャクフゴウ）公式ルール | ブラウザゲーム集</title>
+    <title>百富豪（ヒャクフゴウ）公式ルール | ChikuGames</title>
     <style>
         body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; line-height: 1.8; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; }
-        header { background: #2c3e50; color: white; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 30px; }
-        h1 { margin: 0; font-size: 1.8rem; }
-        h2 { border-bottom: 2px solid #2c3e50; padding-bottom: 5px; color: #2c3e50; margin-top: 40px; }
-        h3 { color: #e67e22; border-left: 5px solid #e67e22; padding-left: 10px; margin-top: 25px; }
-        .rule-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        ul { padding-left: 20px; }
-        li { margin-bottom: 10px; }
+        header { background: #2c3e50; color: white; padding: 25px 20px; border-radius: 8px; text-align: center; margin-bottom: 30px; }
+        h1 { margin: 0; font-size: 1.8rem; letter-spacing: 1px; }
+        h2 { border-bottom: 2px solid #2c3e50; padding-bottom: 5px; color: #2c3e50; margin-top: 40px; font-size: 1.4rem; }
+        h3 { color: #e67e22; border-left: 5px solid #e67e22; padding-left: 10px; margin-top: 25px; font-size: 1.2rem; }
         
+        .rule-card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 12px; }
+        strong { color: #d32f2f; }
+
         /* ボタンエリア */
-        .nav-buttons { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 40px 0; }
-        .btn { display: inline-block; padding: 12px 24px; border-radius: 5px; text-decoration: none; font-weight: bold; transition: 0.3s; text-align: center; min-width: 150px; }
+        .nav-buttons { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin: 30px 0; }
+        .btn { display: inline-block; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; transition: 0.3s; text-align: center; min-width: 160px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .btn-home { background: #95a5a6; color: white; }
         .btn-play { background: #d32f2f; color: white; border: 2px solid #d32f2f; }
         .btn-guide { background: white; color: #d32f2f; border: 2px solid #d32f2f; }
-        .btn:hover { opacity: 0.8; transform: translateY(-2px); }
+        .btn:hover { opacity: 0.8; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
 
-        .special-effect { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-        .effect-item { background: #fff5e6; padding: 15px; border-radius: 5px; border: 1px solid #f39c12; }
-        .effect-title { font-weight: bold; color: #d35400; display: block; margin-bottom: 5px; }
+        /* 特殊効果のグリッド表示 */
+        .special-effect { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-top: 15px; }
+        .effect-item { background: #fff5e6; padding: 18px; border-radius: 8px; border: 1px solid #f39c12; }
+        .effect-title { font-weight: bold; color: #d35400; display: block; margin-bottom: 8px; font-size: 1.1rem; border-bottom: 1px solid #f39c12; padding-bottom: 4px; }
+        
+        footer { margin-top: 60px; padding: 30px 20px; border-top: 1px solid #eee; text-align: center; color: #666; }
+        footer a { color: #007bff; text-decoration: none; margin: 0 10px; font-weight: bold; }
+        footer a:hover { text-decoration: underline; }
+        .copyright { margin-top: 15px; font-size: 0.9rem; }
     </style>
 </head>
 <body>
@@ -33,11 +41,11 @@
     <h1>百富豪（ヒャクフゴウ）公式ルール</h1>
 </header>
 
-<div class="nav-buttons">
+<nav class="nav-buttons">
     <a href="../index.html" class="btn btn-home">🏠 ホームに戻る</a>
     <a href="game.html" class="btn btn-play">🎮 ゲームを始める</a>
     <a href="strategy.html" class="btn btn-guide">💡 攻略完全ガイド</a>
-</div>
+</nav>
 
 <main>
     <section class="rule-card">
@@ -47,13 +55,15 @@
             <li><strong>ゲームの進行：</strong> 時計回りの順番に、手札からカードを出していきます。</li>
             <li><strong>数字の強さ：</strong> 通常は大きい数字ほど強く、場より「強いカード」しか出せません。</li>
             <li><strong>パス：</strong> 全員がパスすると場が流れ、最後にカードを出した人から再開します。</li>
-            <li><strong>勝利条件：</strong> 手札がなくなれば「上がり」となります。最後の一人が決まるまでゲームは続行されます。</li>
+            <li><strong>勝利条件：</strong> 手札がなくなれば「上がり」となります。最後の一人が決まるまで続行します。</li>
         </ul>
     </section>
 
     <section class="rule-card">
         <h2>2. カードの出し方（役）</h2>
-        <p><small>※場にあるカードと「同じ役」かつ「同じ枚数セット」で出す必要があります。</small></p>
+        <p style="background: #f0f0f0; padding: 10px; border-radius: 5px; font-size: 0.9rem;">
+            ※場にあるカードと「同じ役」かつ「同じ枚数セット」で出す必要があります。
+        </p>
         <ul>
             <li><strong>単発：</strong> 1枚で出す。</li>
             <li><strong>グループ：</strong> 十の位が同じ数字のセット（例：21, 23, 28）。</li>
@@ -104,17 +114,23 @@
 
     <section class="rule-card" style="background-color: #f0f7ff; border: 1px dashed #2196F3;">
         <h2>💡 開発者からのワンポイントアドバイス</h2>
-        <p>百富豪は通常の大富豪と違い、カードが100枚と多いため、**「どの十の位を温存するか」**が非常に重要です。<br>
+        <p>百富豪は通常の大富豪と違い、カードが100枚と多いため、<strong>「どの十の位を温存するか」</strong>が非常に重要です。<br>
         特に「7渡し」や「10捨て」を戦略的に使うことで、一気に大逆転を狙える設計になっています。カードの数字だけでなく、その数字が持つ「特殊効果」に注目してみてください！</p>
     </section>
 </main>
 
 <div class="nav-buttons">
     <a href="../index.html" class="btn btn-home">🏠 ホームに戻る</a>
+    <a href="strategy.html" class="btn btn-guide">💡 攻略完全ガイド</a>
 </div>
 
 <footer>
-    <p style="text-align: center; color: #888; font-size: 0.8rem;">&copy; 2026 chikuboya</p>
+    <p>
+        <a href="../privacy.html">プライバシーポリシー</a> | 
+        <a href="../contact.html">お問い合わせ</a> | 
+        <a href="../index.html">ホーム</a>
+    </p>
+    <p class="copyright">&copy; 2026 ChikuGames</p>
 </footer>
 
 </body>
