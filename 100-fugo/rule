@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>百富豪（ヒャクフゴウ）公式ルール | ブラウザゲーム集</title>
+    <style>
+        body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; line-height: 1.8; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; }
+        header { background: #2c3e50; color: white; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 30px; }
+        h1 { margin: 0; font-size: 1.8rem; }
+        h2 { border-bottom: 2px solid #2c3e50; padding-bottom: 5px; color: #2c3e50; margin-top: 40px; }
+        h3 { color: #e67e22; border-left: 5px solid #e67e22; padding-left: 10px; margin-top: 25px; }
+        .rule-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 10px; }
+        
+        /* ボタンエリア */
+        .nav-buttons { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 40px 0; }
+        .btn { display: inline-block; padding: 12px 24px; border-radius: 5px; text-decoration: none; font-weight: bold; transition: 0.3s; text-align: center; min-width: 150px; }
+        .btn-home { background: #95a5a6; color: white; }
+        .btn-play { background: #d32f2f; color: white; border: 2px solid #d32f2f; }
+        .btn-guide { background: white; color: #d32f2f; border: 2px solid #d32f2f; }
+        .btn:hover { opacity: 0.8; transform: translateY(-2px); }
+
+        .special-effect { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .effect-item { background: #fff5e6; padding: 15px; border-radius: 5px; border: 1px solid #f39c12; }
+        .effect-title { font-weight: bold; color: #d35400; display: block; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>百富豪（ヒャクフゴウ）公式ルール</h1>
+</header>
+
+<div class="nav-buttons">
+    <a href="../index.html" class="btn btn-home">🏠 ホームに戻る</a>
+    <a href="game.html" class="btn btn-play">🎮 ゲームを始める</a>
+    <a href="strategy.html" class="btn btn-guide">💡 攻略完全ガイド</a>
+</div>
+
+<main>
+    <section class="rule-card">
+        <h2>1. 基本ルール</h2>
+        <ul>
+            <li><strong>カード構成：</strong> 1〜100の各1枚（計100枚）。各プレイヤー10枚でスタート。</li>
+            <li><strong>ゲームの進行：</strong> 時計回りの順番に、手札からカードを出していきます。</li>
+            <li><strong>数字の強さ：</strong> 通常は大きい数字ほど強く、場より「強いカード」しか出せません。</li>
+            <li><strong>パス：</strong> 全員がパスすると場が流れ、最後にカードを出した人から再開します。</li>
+            <li><strong>勝利条件：</strong> 手札がなくなれば「上がり」となります。最後の一人が決まるまでゲームは続行されます。</li>
+        </ul>
+    </section>
+
+    <section class="rule-card">
+        <h2>2. カードの出し方（役）</h2>
+        <p><small>※場にあるカードと「同じ役」かつ「同じ枚数セット」で出す必要があります。</small></p>
+        <ul>
+            <li><strong>単発：</strong> 1枚で出す。</li>
+            <li><strong>グループ：</strong> 十の位が同じ数字のセット（例：21, 23, 28）。</li>
+            <li><strong>階段：</strong> 連続する数字の3枚以上セット（例：39, 40, 41）。</li>
+            <li><strong>グループかつ階段：</strong> 十の位が同じかつ連続する数字。</li>
+        </ul>
+    </section>
+
+    <section class="rule-card">
+        <h2>3. 特殊効果</h2>
+        <div class="special-effect">
+            <div class="effect-item">
+                <span class="effect-title">革命</span>
+                4枚以上の同時出し。数字の強弱が逆転します。再度起きると元に戻ります。
+            </div>
+            <div class="effect-item">
+                <span class="effect-title">11バック</span>
+                11の倍数を含む出し。そのターン中のみ強弱が逆転します。
+            </div>
+            <div class="effect-item">
+                <span class="effect-title">8切り</span>
+                8のつく数字を含む出し。即座に場を流し、自分の番になります。
+            </div>
+            <div class="effect-item">
+                <span class="effect-title">7渡し</span>
+                7のつく数字を含む出し。出した枚数分、手札を次の人に渡します。
+            </div>
+            <div class="effect-item">
+                <span class="effect-title">10捨て</span>
+                10の倍数を含む出し。出した枚数分、手札を自由に捨てられます。
+            </div>
+        </div>
+    </section>
+
+    <section class="rule-card">
+        <h2>4. 階級と交換システム</h2>
+        <h3>階級の種類</h3>
+        <p>上がり順に <strong>大富豪 ＞ 富豪 ＞ 平民 ＞ 貧民 ＞ 大貧民</strong> となります。</p>
+        
+        <h3>カード交換</h3>
+        <p>次回開始時、以下の枚数を交換します。下位は最強カードを献上し、上位は不要なカードを返します。</p>
+        <ul>
+            <li><strong>大富豪と大貧民：</strong> 2枚交換</li>
+            <li><strong>富豪と貧民：</strong> 1枚交換</li>
+        </ul>
+        <p><strong>開始順：</strong> カード交換後、大貧民からスタートします。</p>
+    </section>
+
+    <section class="rule-card" style="background-color: #f0f7ff; border: 1px dashed #2196F3;">
+        <h2>💡 開発者からのワンポイントアドバイス</h2>
+        <p>百富豪は通常の大富豪と違い、カードが100枚と多いため、**「どの十の位を温存するか」**が非常に重要です。<br>
+        特に「7渡し」や「10捨て」を戦略的に使うことで、一気に大逆転を狙える設計になっています。カードの数字だけでなく、その数字が持つ「特殊効果」に注目してみてください！</p>
+    </section>
+</main>
+
+<div class="nav-buttons">
+    <a href="../index.html" class="btn btn-home">🏠 ホームに戻る</a>
+</div>
+
+<footer>
+    <p style="text-align: center; color: #888; font-size: 0.8rem;">&copy; 2026 chikuboya</p>
+</footer>
+
+</body>
+</html>
