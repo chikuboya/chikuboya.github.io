@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>百富豪 - 演出＆デザイン強化版</title>
     <style>
-        body { font-family: sans-serif; background: #1a1a2e; color: #fff; display: flex; flex-direction: column; align-items: center; padding: 10px; margin: 0; overflow: hidden; }
-        #game-area { background: #16213e; padding: 15px; border-radius: 15px; width: 95%; max-width: 600px; position: relative; box-sizing: border-box; height: 98vh; display: flex; flex-direction: column; }
+        body { font-family: sans-serif; background: #1a1a2e; color: #fff; display: flex; flex-direction: column; align-items: center; padding: 10px; margin: 0; }
+        #game-area { background: #16213e; padding: 15px; border-radius: 15px; width: 95%; max-width: 600px; position: relative; box-sizing: border-box; min-height: 500px; margin-bottom: 20px; display: flex; flex-direction: column; }
         #menu-screen { text-align: center; padding: 20px; flex-grow: 1; }
         .menu-btn { margin: 8px; padding: 12px 20px; background: #e94560; border: none; border-radius: 5px; color: white; font-weight: bold; cursor: pointer; }
         #menu-back-btn { position: absolute; top: 10px; left: 10px; padding: 5px 10px; background: #444; border: none; border-radius: 5px; color: white; font-size: 0.7em; cursor: pointer; z-index: 300; }
@@ -73,6 +73,9 @@
         .last-player-text { color: #ff4b2b; font-weight: bold; }
         .rank-tag { display: block; font-weight: bold; font-size: 0.9em; }
         .rank-大富豪 { color: #ffd700; } .rank-富豪 { color: #c0c0c0; } .rank-平民 { color: #fff; } .rank-貧民 { color: #cd7f32; } .rank-大貧民 { color: #8b4513; }
+        footer {text-align: center; font-size: 0.8em; padding: 20px 0; color: #aaa;
+        }
+        footer a { color: #e94560; text-decoration: none; margin: 0 5px; }
     </style>
 </head>
 <body>
@@ -126,7 +129,12 @@
         <div style="text-align:center;"><button class="menu-btn" onclick="toggleRule(false)">閉じる</button></div>
     </div></div>
 
-    <div id="menu-screen"><h1>百富豪</h1><p>CPU人数選択</p><div id="cpu-select"></div></div>
+    <div id="menu-screen" style="min-height: 350px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding-bottom: 30px;">
+    <h1>百富豪</h1>
+    <p style="margin-bottom: 20px;">CPU人数選択</p>
+    <div id="cpu-select" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; max-width: 300px;">
+    </div>
+</div>
     <div id="main-game" style="display:none; flex-direction: column; height: 100%;">
         <div id="effect-overlay"><div id="effect-ui-container"><h3 id="effect-title"></h3><p id="effect-msg"></p><button id="effect-confirm-btn" onclick="confirmEffect()" style="background:#27ae60; width:100%;">決定</button></div></div>
         <div id="cpu-top"></div>
@@ -170,6 +178,7 @@ function startGame() {
     document.getElementById('menu-screen').style.display = 'none';
     document.getElementById('main-game').style.display = 'flex';
     document.getElementById('menu-back-btn').style.display = 'block';
+    window.scrollTo(0, 0);
     initGame(true);
 }
 
