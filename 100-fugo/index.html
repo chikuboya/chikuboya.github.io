@@ -434,10 +434,22 @@ function cpuLogic() {
             if (isValid(b)) p.push(b);
         }
     }
-    if(p.length > 0){ 
-        const r=(field.isRev^field.is11B); 
-        p.sort((a,b)=>(r?b[b.length-1]-a[0]:a[0]-b[0])); 
-        processMove(turn, p[0]); 
+    // CPUの思考ロジック
+    if (p.length > 0) {
+        const r = (field.isRev ^ field.is11B); // 革命中かどうかの判定
+
+        p.sort((a, b) => {
+            // 1. まず「枚数」が多い順に並べる（b.length - a.length）
+            if (b.length !== a.length) {
+                return b.length - a.length;
+            }
+            // 2. 枚数が同じなら、その時の「弱さ」順に並べる
+            // 通常時：数字が小さい順 (a[0] - b[0])
+            // 革命時：数字が大きい順 (b[b.length-1] - a[a.length-1])
+            return r ? b[b.length - 1] - a[a.length - 1] : a[0] - b[0];
+        });
+
+        processMove(turn, p[0]); // ソートした結果、一番上にきた手を出す
     }
     else { 
         log(`cpu${turn} パス`); 
