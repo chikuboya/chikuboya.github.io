@@ -6,7 +6,7 @@
      crossorigin="anonymous"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>四人将棋 ルールガイド | chikuboya</title>
+    <title>四人将棋・四國将棋 ルールガイド | chikuboya</title>
     
     <style>
         body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; line-height: 1.8; color: #333; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #fcfcfc; }
@@ -15,7 +15,9 @@
         h2 { color: #d32f2f; border-left: 5px solid #d32f2f; padding-left: 15px; margin-top: 40px; font-size: 1.3rem; }
         h3 { font-size: 1.1rem; margin-top: 25px; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
         .container { background: white; padding: 30px; border-radius: 12px; border: 1px solid #e0e0e0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .image-placeholder { background: #eee; border: 1px dashed #999; padding: 40px; text-align: center; margin: 20px 0; border-radius: 8px; }
+        .image-row { display: flex; justify-content: space-between; gap: 20px; margin: 20px 0; flex-wrap: wrap; }
+        .image-card { flex: 1; min-width: 300px; background: #f9f9f9; border: 1px solid #ddd; padding: 15px; border-radius: 8px; text-align: center; }
+        .image-placeholder { background: #eee; border: 1px dashed #999; padding: 20px; text-align: center; margin-bottom: 10px; border-radius: 4px; }
         .image-placeholder img { max-width: 100%; height: auto; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         ul, ol { padding-left: 20px; }
         li { margin-bottom: 10px; }
@@ -28,18 +30,35 @@
 <body>
 
 <header>
-    <h1>四人将棋 ルールガイド</h1>
+    <h1>四人将棋・四國将棋 ルールガイド</h1>
 </header>
 
 <main class="container">
     <section>
         <h2>1. ゲームの概要</h2>
         <p>四人将棋は、9x9の盤面で4人のプレイヤーが同時に戦うサバイバル将棋です。戦略的な「王の獲得数」と「生存」が勝敗を分ける独自のルールを採用しています。</p>
-        <p><span class="highlight">【対局の準備】</span><br>
-        対局開始前に、各プレイヤーは自分の主力となる駒を<span class="highlight">「飛車」か「角行」のどちらかひとつ</span>選んで配置します。これにより、プレイヤーごとに異なる戦術でゲームが始まります。</p>
-        <div class="image-placeholder">
-            <img src="img/shokihaichi.png" alt="四人将棋 初期配置図">
-            <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">【初期配置図】</p>
+        
+        <p><span class="highlight">【モードの選択】</span><br>
+        対局開始前に、桂馬と香車を使用する戦略的な<strong>「四國将棋（しごくしょうぎ）」</strong>か、昔ながらのシンプルな<strong>「四人将棋」</strong>のどちらかを選んでプレイします。</p>
+
+        <p><span class="highlight">【主力駒の配置】</span><br>
+        いずれのモードでも、各プレイヤーは自分の主力となる駒を<span class="highlight">「飛車」か「角行」のどちらかひとつ</span>選んで配置します。</p>
+
+        <div class="image-row">
+            <div class="image-card">
+                <h3>四國将棋（桂・香あり）</h3>
+                <div class="image-placeholder">
+                    <img src="img/shokuhaiti_sigokushougi.png" alt="四國将棋 初期配置図">
+                </div>
+                <p style="font-size: 0.8rem; color: #666;">桂馬と香車が加わり、より本家将棋に近い複雑な攻防が楽しめます。</p>
+            </div>
+            <div class="image-card">
+                <h3>四人将棋（桂・香なし）</h3>
+                <div class="image-placeholder">
+                    <img src="img/shokihaiti_yoninshougi.png" alt="四人将棋 初期配置図">
+                </div>
+                <p style="font-size: 0.8rem; color: #666;">伝統的な四人将棋スタイル。駒数が少なく、スピーディーな展開が特徴です。</p>
+            </div>
         </div>
     </section>
 
@@ -78,7 +97,7 @@
         <h3>③ 二歩と行き所のない駒</h3>
         <ul>
             <li><strong>二歩：</strong> <span class="highlight">自分の歩がすでに置かれている列（歩の左右ではなく前後）</span>に、新たに自分の歩を置くことはできません。</li>
-            <li><strong>行き所のない駒：</strong> 次に動ける場所がない位置（例：南のプレイヤーが一番奥の1段目に歩を打つなど）には駒を打てません。</li>
+            <li><strong>行き所のない駒：</strong> 次に動ける場所がない位置（例：歩を最深部に打つ、四國将棋で桂馬を奥2段に打つなど）には駒を打てません。</li>
         </ul>
 
         <h3>④ 千日手</h3>
