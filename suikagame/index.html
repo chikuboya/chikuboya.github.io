@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>JSスイカゲーム - バグ修正版</title>
+    <title>スイカゲーム</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
     <style>
         body {
@@ -13,21 +13,22 @@
         }
         #main-wrapper { display: flex; flex-direction: column; align-items: center; padding: 0 20px; width: 100%; max-width: 400px; box-sizing: border-box; }
         #top-ui {
-            width: 100%; height: 60px; display: flex; justify-content: space-between; align-items: center;
+            width: 100%; height: 75px; display: flex; justify-content: space-between; align-items: center;
             margin-bottom: 10px; background: rgba(255,255,255,0.6); padding: 0 15px; border-radius: 20px; box-sizing: border-box;
         }
         #score-wrapper { display: flex; flex-direction: column; }
-        #score { font-size: 20px; font-weight: bold; color: #e67e22; }
-        #best-score { font-size: 12px; color: #7f8c8d; font-weight: bold; }
+        #score { font-size: 18px; font-weight: bold; color: #e67e22; }
+        #best-score { font-size: 11px; color: #7f8c8d; font-weight: bold; }
+        #today-best-score { font-size: 11px; color: #2ecc71; font-weight: bold; }
         #next-container { display: flex; gap: 8px; }
-        .next-group { display: flex; align-items: center; gap: 4px; }
+        .next-group { display: flex; flex-direction: column; align-items: center; gap: 2px; }
         .next-slot { width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; background: white; border-radius: 50%; font-size: 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .label { font-size: 10px; color: #7f8c8d; font-weight: bold; }
+        .label { font-size: 9px; color: #7f8c8d; font-weight: bold; }
         #game-container { position: relative; width: 320px; height: 480px; border: 8px solid #8b4513; border-radius: 15px; background: #fff; box-shadow: 0 15px 35px rgba(0,0,0,0.2); overflow: hidden; }
         #deadline-line { position: absolute; left: 0; width: 100%; height: 0; border-top: 2px dashed #ff4d4d; z-index: 5; pointer-events: none; }
         #overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; flex-direction: column; justify-content: center; align-items: center; color: white; z-index: 10; }
         #retry-btn { padding: 12px 25px; font-size: 18px; background: #2ecc71; color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; }
-        #evolution-chart { margin-top: 15px; display: flex; gap: 2px; align-items: center; font-size: 14px; background: rgba(255,255,255,0.4); padding: 8px; border-radius: 12px; }
+        #evolution-chart { margin-top: -5px; display: flex; gap: 2px; align-items: center; font-size: 14px; background: rgba(255,255,255,0.4); padding: 8px; border-radius: 12px; }
     </style>
 </head>
 <body>
@@ -36,6 +37,7 @@
         <div id="top-ui">
             <div id="score-wrapper">
                 <div id="score">SCORE: 0</div>
+                <div id="today-best-score">TODAY: 0</div>
                 <div id="best-score">BEST: 0</div>
             </div>
             <div id="next-container">
@@ -61,6 +63,7 @@
         const canvasHeight = 480;
         const DEADLINE_Y = 70;
         const SAVE_KEY = "suika_best_score_v1";
+        const TODAY_SAVE_KEY = "suika_today_best_v1";
 
         const FRUIT_DATA = [
             { emoji: '🍒', radius: 13, score: 2, color: '#ff4d4d' },
@@ -76,7 +79,6 @@
         ];
 
         let engine, render, runner, score, nextQueue, currentFruitBody, isDragging, canDrop, isGameOver, gameOverTimer;
-        // 連続進化防止用のロックリスト
         let mergingBodies = new Set();
 
         document.getElementById('deadline-line').style.top = DEADLINE_Y + 'px';
@@ -113,45 +115,28 @@
             Events.on(engine, 'afterUpdate', checkGameOver);
         }
 
-        // --- 修正された合体ロジック ---
         function handleCollision(event) {
             event.pairs.forEach((pair) => {
                 const { bodyA, bodyB } = pair;
-
-                // 1. そもそも同じ種類か？
                 if (bodyA.fruitIndex === undefined || bodyA.fruitIndex !== bodyB.fruitIndex) return;
-
-                // 2. どちらかが「すでに消去中」ではないか？
                 if (mergingBodies.has(bodyA.id) || mergingBodies.has(bodyB.id)) return;
-
-                // 3. どちらかが静止（手に持ってる状態）ではないか？
                 if (bodyA.isStatic || bodyB.isStatic) return;
 
-                // --- ここまで来たら合体OK ---
                 const nextIdx = bodyA.fruitIndex + 1;
                 if (nextIdx < FRUIT_DATA.length) {
-                    // 即座にロック（このフレーム内での多重判定を防止）
                     mergingBodies.add(bodyA.id);
                     mergingBodies.add(bodyB.id);
-
                     const midX = (bodyA.position.x + bodyB.position.x) / 2;
                     const midY = (bodyA.position.y + bodyB.position.y) / 2;
 
-                    // 物理世界から削除
                     Composite.remove(engine.world, [bodyA, bodyB]);
-                    
-                    // 新しいフルーツを作成
                     const newFruit = createFruitBody(midX, midY, nextIdx);
                     Composite.add(engine.world, newFruit);
-
-                    // 合体時に少し跳ねさせる
                     Body.setVelocity(newFruit, { x: (Math.random()-0.5)*2, y: -2 });
 
                     score += FRUIT_DATA[nextIdx].score;
                     document.getElementById("score").innerText = `SCORE: ${score}`;
 
-                    // 次のフレーム（16ms後）には新しいフルーツのロックを解除する
-                    // ※0.1秒(100ms)だと長すぎたので、もっと短くします
                     setTimeout(() => {
                         mergingBodies.delete(newFruit.id);
                         mergingBodies.delete(bodyA.id);
@@ -236,8 +221,8 @@
                     document.getElementById('deadline-line').style.borderTopStyle = "solid";
                     gameOverTimer = setTimeout(() => {
                         isGameOver = true;
-                        const isNew = checkAndSaveBestScore(score);
-                        document.getElementById("final-score").innerHTML = `SCORE: ${score}${isNew ? " (NEW!)" : ""}`;
+                        checkAndSaveBestScore(score);
+                        document.getElementById("final-score").innerHTML = `SCORE: ${score}`;
                         document.getElementById("overlay").style.display = "flex";
                         Runner.stop(runner);
                     }, 3000);
@@ -249,15 +234,37 @@
             }
         }
 
+        // --- スコア保存ロジック（ハイスコア & 今日のハイスコア） ---
+        function getTodayString() {
+            return new Date().toISOString().split('T')[0];
+        }
+
         function updateBestScoreDisplay() {
             const savedBest = localStorage.getItem(SAVE_KEY) || 0;
             document.getElementById("best-score").innerText = `BEST: ${savedBest}`;
+
+            const todayStr = getTodayString();
+            const todayData = JSON.parse(localStorage.getItem(TODAY_SAVE_KEY) || "{}");
+            const todayBest = todayData.date === todayStr ? todayData.score : 0;
+            document.getElementById("today-best-score").innerText = `TODAY: ${todayBest}`;
         }
+
         function checkAndSaveBestScore(currentScore) {
+            // 全期間ベスト
             const savedBest = parseInt(localStorage.getItem(SAVE_KEY)) || 0;
-            if (currentScore > savedBest) { localStorage.setItem(SAVE_KEY, currentScore); updateBestScoreDisplay(); return true; }
-            return false;
+            if (currentScore > savedBest) {
+                localStorage.setItem(SAVE_KEY, currentScore);
+            }
+
+            // 今日ベスト
+            const todayStr = getTodayString();
+            const todayData = JSON.parse(localStorage.getItem(TODAY_SAVE_KEY) || "{}");
+            if (todayData.date !== todayStr || currentScore > todayData.score) {
+                localStorage.setItem(TODAY_SAVE_KEY, JSON.stringify({ date: todayStr, score: currentScore }));
+            }
+            updateBestScoreDisplay();
         }
+
         function resetGame() { const canvas = container.querySelector('canvas'); if (canvas) canvas.remove(); Runner.stop(runner); mergingBodies.clear(); init(); }
 
         const chart = document.getElementById('evolution-chart');
