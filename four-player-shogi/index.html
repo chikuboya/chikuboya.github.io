@@ -70,12 +70,12 @@
         font-size: 12px;
         cursor: pointer;
     }
-    /* レイアウト：中央に寄せて密着させる */
     .main-game-layout { 
         display: flex; 
         align-items: center; 
-        justify-content: flex-start; 
-        gap: 2px; /* 盤面と駒台の隙間を最小限に */
+        justify-content: center; /* ★左詰め(flex-start)から中央(center)に変更 */
+        gap: 2px; 
+        width: 100%;             /* 全体の幅を確保 */
     }
     .center-column { display: flex; flex-direction: column; align-items: center; gap: 2px; }
 
@@ -156,8 +156,17 @@
         box-sizing: border-box;
     }
     .hand-h { width: 242px; min-height: 35px; flex-wrap: wrap; justify-content: center; margin: 2px 0; }
-    .hand-v { width: 35px; height: 242px; flex-direction: column; align-items: center; justify-content: flex-start; padding: 2px 0; }
-
+    /* 西・東の持ち駒台：高さが足りなくなったら横に列を増やす */
+    .hand-v { 
+        width: auto;             /* 幅を固定(35px)から自動に変更 */
+        min-width: 35px;         /* 最低限の幅は維持 */
+        height: 242px;           /* 盤面の高さで止める（これを超えると折り返す） */
+        flex-direction: column;  /* 縦に並べる */
+        flex-wrap: wrap;         /* ★入り切らない分を次の列へ */
+        align-content: flex-start; /* ★新しい列を左詰めで作る */
+        justify-content: flex-start; 
+        padding: 2px 0; 
+    }
     .label { font-size: 10px; font-weight: bold; color: #5d3a1a; margin: 0; }
     /* --- 成り選択モーダルの新設計 --- */
     #promote-modal {
@@ -300,7 +309,26 @@
         width: 100px; /* 少し広げました */
                 box-shadow: 0 4px 8px rgba(0,0,0,0.15);
     }
-    
+    /* サドンデス突入の演出スタイル */
+    .sudden-death-msg {
+        color: #fff;
+        font-size: 24px;
+        font-weight: bold;
+        background: linear-gradient(45deg, #000, #444); /* 黒からグレーのグラデ */
+        padding: 15px 25px;
+        border: 4px solid #ff0000; /* 赤い縁取り */
+        border-radius: 8px;
+        box-shadow: 0 0 30px rgba(255, 0, 0, 0.8), inset 0 0 15px rgba(255, 255, 255, 0.3);
+        text-shadow: 2px 2px 4px #000;
+        text-align: center;
+        white-space: nowrap;
+        animation: flash-shake 0.4s infinite alternate; /* 激しく震えるアニメ */
+    }
+
+    @keyframes flash-shake {
+        from { transform: scale(1) rotate(-1deg); filter: brightness(1); }
+        to { transform: scale(1.05) rotate(1deg); filter: brightness(1.3); }
+    }
     </style>
 </head>
 <body>
@@ -692,6 +720,94 @@ async function executeMove(m) {
     if (survivors.length > 1 && playerTypes[turn] === "cpu") startCpuThink();
 }
 
+function showBigMsg(text, type = "out", subText = "") {
+    const overlay = document.getElementById('msg-overlay');
+    overlay.innerHTML = '';
+    
+    // メッセージを表示する時だけ visible にし、それ以外は消す
+    overlay.style.display = "flex"; 
+
+    const div = document.createElement('div');
+    
+    if (type === "win") {
+        div.className = "win-msg";
+        // 勝利時はメッセージをドラッグしたり、その下のボタンを押せるようにする
+        overlay.style.pointerEvents = "none"; 
+        div.style.pointerEvents = "auto"; // メッセージ自体は触れるようにする
+    } else if (type === "out") {
+        div.className = "sudden-death-msg";
+        overlay.style.pointerEvents = "none"; // サドンデス中も盤面操作を邪魔しない
+    } else {
+        div.className = "out-msg";
+        overlay.style.pointerEvents = "none";
+    }
+    
+    if (type === "win") {
+        div.style.position = "absolute";
+        div.style.cursor = "move";
+        
+        let isDragging = false;
+        let offset = { x: 0, y: 0 };
+
+        const startDrag = (e) => {
+            isDragging = true;
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            offset.x = div.offsetLeft - clientX;
+            offset.y = div.offsetTop - clientY;
+            div.style.animation = "none"; 
+        };
+
+        const doDrag = (e) => {
+            if (!isDragging) return;
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            div.style.left = (clientX + offset.x) + "px";
+            div.style.top = (clientY + offset.y) + "px";
+            div.style.transform = "none"; 
+        };
+
+        const stopDrag = () => { isDragging = false; };
+
+        div.onmousedown = startDrag;
+        window.onmousemove = doDrag;
+        window.onmouseup = stopDrag;
+        div.ontouchstart = startDrag;
+        window.ontouchmove = doDrag;
+        window.ontouchend = stopDrag;
+    }
+
+    const mainText = document.createElement('div');
+    mainText.textContent = text;
+    if (type === "win") {
+        mainText.style.fontSize = "26px";
+        mainText.style.lineHeight = "1.2";
+    }
+    div.appendChild(mainText);
+
+    if (subText) {
+        const subDiv = document.createElement('div');
+        subDiv.style.fontSize = "16px";
+        subDiv.style.marginTop = "12px";
+        subDiv.style.color = "#333";
+        subDiv.style.textAlign = "left";
+        subDiv.style.fontWeight = "bold";
+        subDiv.style.lineHeight = "1.5";
+        subDiv.innerText = subText;
+        div.appendChild(subDiv);
+    }
+
+    overlay.appendChild(div);
+
+    // 【修正】サドンデスなどの一時的なメッセージは3秒で overlay 自体を非表示にする
+    if (type !== "win") { 
+        setTimeout(() => { 
+            overlay.style.display = "none";
+            overlay.innerHTML = '';
+        }, 2000); 
+    }
+}
+
 function undo() {
     if (history.length === 0) return;
     clearTimeout(cpuTimer);
@@ -835,6 +951,7 @@ function render() {
             hEl.appendChild(d);
         });
     }
+updateStatus();
 }
 
 function updateStatus() {
@@ -1087,77 +1204,6 @@ function findKing(b, t) {
     return null;
 }
 // 中央に大きなメッセージを表示する関数
-function showBigMsg(text, type = "out", subText = "") {
-    const overlay = document.getElementById('msg-overlay');
-    overlay.innerHTML = '';
-    const div = document.createElement('div');
-    div.className = type === "win" ? "win-msg" : "out-msg";
-    
-    // 【追加】ドラッグ移動のための設定（勝利時のみ）
-    if (type === "win") {
-        div.style.position = "absolute";
-        div.style.cursor = "move";
-        div.style.pointerEvents = "auto"; // クリックやドラッグを有効化
-        
-        let isDragging = false;
-        let offset = { x: 0, y: 0 };
-
-        const startDrag = (e) => {
-            isDragging = true;
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            offset.x = div.offsetLeft - clientX;
-            offset.y = div.offsetTop - clientY;
-            div.style.animation = "none"; // ドラッグ中はバウンスを止める
-        };
-
-        const doDrag = (e) => {
-            if (!isDragging) return;
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            div.style.left = (clientX + offset.x) + "px";
-            div.style.top = (clientY + offset.y) + "px";
-            div.style.transform = "none"; // 中央固定解除
-        };
-
-        const stopDrag = () => { isDragging = false; };
-
-        div.onmousedown = startDrag;
-        window.onmousemove = doDrag;
-        window.onmouseup = stopDrag;
-
-        div.ontouchstart = startDrag;
-        window.ontouchmove = doDrag;
-        window.ontouchend = stopDrag;
-    }
-
-    // メインテキスト
-    const mainText = document.createElement('div');
-    mainText.textContent = text;
-    if (type === "win") {
-        mainText.style.fontSize = "26px";
-        mainText.style.lineHeight = "1.2";
-    }
-    div.appendChild(mainText);
-
-    // 順位リスト
-    if (subText) {
-        const subDiv = document.createElement('div');
-        subDiv.style.fontSize = "16px";
-        subDiv.style.marginTop = "12px";
-        subDiv.style.color = "#333";
-        subDiv.style.textAlign = "left";
-        subDiv.style.fontWeight = "bold";
-        subDiv.style.lineHeight = "1.5";
-        subDiv.innerText = subText;
-        div.appendChild(subDiv);
-    }
-
-    overlay.appendChild(div);
-    if (type !== "win") { 
-        setTimeout(() => { if(div.parentNode) div.remove(); }, 2000); 
-    }
-}
 
 function setupDraggable(el) {
     let isDragging = false, offset = { x: 0, y: 0 };
