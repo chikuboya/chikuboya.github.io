@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>JSスイカゲーム - 完全保存版</title>
+    <title>JSスイカゲーム - バグ修正版</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
     <style>
         body {
@@ -11,98 +11,23 @@
             height: 100vh; background-color: #f7e9d7; color: #333; font-family: sans-serif;
             overflow: hidden; touch-action: none;
         }
-
-        #main-wrapper {
-            display: flex; flex-direction: column; align-items: center;
-            padding: 0 20px; width: 100%; max-width: 400px;
-            box-sizing: border-box;
-        }
-        
-        /* 上部UI：ぐちゃぐちゃにならないよう、高さを固定して配置 */
+        #main-wrapper { display: flex; flex-direction: column; align-items: center; padding: 0 20px; width: 100%; max-width: 400px; box-sizing: border-box; }
         #top-ui {
-            width: 100%;
-            height: 60px; /* 高さを固定 */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            background: rgba(255,255,255,0.6);
-            padding: 0 15px;
-            border-radius: 20px;
-            box-sizing: border-box;
+            width: 100%; height: 60px; display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 10px; background: rgba(255,255,255,0.6); padding: 0 15px; border-radius: 20px; box-sizing: border-box;
         }
-
-        /* スコア表示エリア：縦並びに */
-        #score-wrapper {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-        }
-        #score { font-size: 20px; font-weight: bold; color: #e67e22; line-height: 1.2; }
+        #score-wrapper { display: flex; flex-direction: column; }
+        #score { font-size: 20px; font-weight: bold; color: #e67e22; }
         #best-score { font-size: 12px; color: #7f8c8d; font-weight: bold; }
-
-        /* NEXT表示エリア */
-        #next-container { display: flex; gap: 8px; align-items: center; }
+        #next-container { display: flex; gap: 8px; }
         .next-group { display: flex; align-items: center; gap: 4px; }
-        .next-slot {
-            width: 35px; height: 35px;
-            display: flex; align-items: center; justify-content: center;
-            background: white; border-radius: 50%;
-            font-size: 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
+        .next-slot { width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; background: white; border-radius: 50%; font-size: 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .label { font-size: 10px; color: #7f8c8d; font-weight: bold; }
-
-        /* ゲーム画面本体 */
-        #game-container {
-            position: relative;
-            width: 320px; /* 盤面の幅を固定 */
-            height: 480px; /* 盤面の高さを固定 */
-            border: 8px solid #8b4513;
-            border-radius: 15px;
-            background: #fff;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            overflow: hidden;
-            cursor: crosshair;
-        }
-
-        /* デッドライン（赤線） */
-        #deadline-line {
-            position: absolute;
-            left: 0;
-            width: 100%;
-            height: 0;
-            border-top: 2px dashed #ff4d4d;
-            z-index: 5;
-            pointer-events: none;
-        }
-
-        /* ゲームオーバー画面 */
-        #overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); display: none;
-            flex-direction: column; justify-content: center; align-items: center;
-            color: white; z-index: 10;
-        }
-        #overlay h1 { color: #ff4d4d; margin: 0 0 10px 0; }
-        #final-score { font-size: 24px; margin-bottom: 20px; }
-        #retry-btn {
-            padding: 12px 25px; font-size: 18px; background: #2ecc71; color: white;
-            border: none; border-radius: 50px; cursor: pointer; font-weight: bold;
-        }
-
-        /* 進化マップ（下部） */
-        #evolution-chart {
-            margin-top: 15px;
-            display: flex;
-            gap: 2px;
-            align-items: center;
-            font-size: 14px;
-            background: rgba(255,255,255,0.4);
-            padding: 8px;
-            border-radius: 12px;
-        }
-        .evo-arrow { color: #aaa; margin: 0 1px; }
+        #game-container { position: relative; width: 320px; height: 480px; border: 8px solid #8b4513; border-radius: 15px; background: #fff; box-shadow: 0 15px 35px rgba(0,0,0,0.2); overflow: hidden; }
+        #deadline-line { position: absolute; left: 0; width: 100%; height: 0; border-top: 2px dashed #ff4d4d; z-index: 5; pointer-events: none; }
+        #overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; flex-direction: column; justify-content: center; align-items: center; color: white; z-index: 10; }
+        #retry-btn { padding: 12px 25px; font-size: 18px; background: #2ecc71; color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; }
+        #evolution-chart { margin-top: 15px; display: flex; gap: 2px; align-items: center; font-size: 14px; background: rgba(255,255,255,0.4); padding: 8px; border-radius: 12px; }
     </style>
 </head>
 <body>
@@ -114,17 +39,10 @@
                 <div id="best-score">BEST: 0</div>
             </div>
             <div id="next-container">
-                <div class="next-group">
-                    <div class="label">NEXT1</div>
-                    <div id="next1" class="next-slot"></div>
-                </div>
-                <div class="next-group">
-                    <div class="label">NEXT2</div>
-                    <div id="next2" class="next-slot"></div>
-                </div>
+                <div class="next-group"><div class="label">NEXT1</div><div id="next1" class="next-slot"></div></div>
+                <div class="next-group"><div class="label">NEXT2</div><div id="next2" class="next-slot"></div></div>
             </div>
         </div>
-
         <div id="game-container">
             <div id="deadline-line"></div>
             <div id="overlay">
@@ -133,7 +51,6 @@
                 <button id="retry-btn" onclick="resetGame()">もう一度遊ぶ</button>
             </div>
         </div>
-
         <div id="evolution-chart"></div>
     </div>
 
@@ -142,7 +59,8 @@
 
         const canvasWidth = 320; 
         const canvasHeight = 480;
-        const DEADLINE_Y = 70; // 終了ライン
+        const DEADLINE_Y = 70;
+        const SAVE_KEY = "suika_best_score_v1";
 
         const FRUIT_DATA = [
             { emoji: '🍒', radius: 13, score: 2, color: '#ff4d4d' },
@@ -158,33 +76,13 @@
         ];
 
         let engine, render, runner, score, nextQueue, currentFruitBody, isDragging, canDrop, isGameOver, gameOverTimer;
+        // 連続進化防止用のロックリスト
+        let mergingBodies = new Set();
 
-        // 赤線の位置を設定
         document.getElementById('deadline-line').style.top = DEADLINE_Y + 'px';
 
-        // --- ハイスコア機能（保存と呼び出し） ---
-        const SAVE_KEY = "suika_best_score_v1";
-
-        function updateBestScoreDisplay() {
-            const savedBest = localStorage.getItem(SAVE_KEY) || 0;
-            document.getElementById("best-score").innerText = `BEST: ${savedBest}`;
-        }
-
-        function checkAndSaveBestScore(currentScore) {
-            const savedBest = parseInt(localStorage.getItem(SAVE_KEY)) || 0;
-            if (currentScore > savedBest) {
-                localStorage.setItem(SAVE_KEY, currentScore);
-                updateBestScoreDisplay();
-                return true; // 新記録
-            }
-            return false;
-        }
-
-        // --- 初期化 ---
         function init() {
-            // 起動時にハイスコアを表示
             updateBestScoreDisplay();
-
             engine = Engine.create({ constraintIterations: 10 });
             render = Render.create({
                 element: document.getElementById("game-container"),
@@ -192,12 +90,11 @@
                 options: { width: canvasWidth, height: canvasHeight, wireframes: false, background: 'transparent' }
             });
 
-            // 壁（摩擦を少し持たせる）
             const wallOptions = { isStatic: true, friction: 0.1, render: { visible: false } };
             Composite.add(engine.world, [
-                Bodies.rectangle(canvasWidth/2, canvasHeight+50, canvasWidth, 100, wallOptions), // 底
-                Bodies.rectangle(-50, canvasHeight/2, 100, canvasHeight, wallOptions), // 左
-                Bodies.rectangle(canvasWidth+50, canvasHeight/2, 100, canvasHeight, wallOptions) // 右
+                Bodies.rectangle(canvasWidth/2, canvasHeight+50, canvasWidth, 100, wallOptions),
+                Bodies.rectangle(-50, canvasHeight/2, 100, canvasHeight, wallOptions),
+                Bodies.rectangle(canvasWidth+50, canvasHeight/2, 100, canvasHeight, wallOptions)
             ]);
 
             score = 0; isGameOver = false; canDrop = true;
@@ -212,28 +109,69 @@
             runner = Runner.create();
             Runner.run(runner, engine);
 
-            // 衝突（合体）イベント
             Events.on(engine, 'collisionStart', handleCollision);
-            // 更新後のゲームオーバー判定
             Events.on(engine, 'afterUpdate', checkGameOver);
         }
 
-        // --- 果物の生成 ---
+        // --- 修正された合体ロジック ---
+        function handleCollision(event) {
+            event.pairs.forEach((pair) => {
+                const { bodyA, bodyB } = pair;
+
+                // 1. そもそも同じ種類か？
+                if (bodyA.fruitIndex === undefined || bodyA.fruitIndex !== bodyB.fruitIndex) return;
+
+                // 2. どちらかが「すでに消去中」ではないか？
+                if (mergingBodies.has(bodyA.id) || mergingBodies.has(bodyB.id)) return;
+
+                // 3. どちらかが静止（手に持ってる状態）ではないか？
+                if (bodyA.isStatic || bodyB.isStatic) return;
+
+                // --- ここまで来たら合体OK ---
+                const nextIdx = bodyA.fruitIndex + 1;
+                if (nextIdx < FRUIT_DATA.length) {
+                    // 即座にロック（このフレーム内での多重判定を防止）
+                    mergingBodies.add(bodyA.id);
+                    mergingBodies.add(bodyB.id);
+
+                    const midX = (bodyA.position.x + bodyB.position.x) / 2;
+                    const midY = (bodyA.position.y + bodyB.position.y) / 2;
+
+                    // 物理世界から削除
+                    Composite.remove(engine.world, [bodyA, bodyB]);
+                    
+                    // 新しいフルーツを作成
+                    const newFruit = createFruitBody(midX, midY, nextIdx);
+                    Composite.add(engine.world, newFruit);
+
+                    // 合体時に少し跳ねさせる
+                    Body.setVelocity(newFruit, { x: (Math.random()-0.5)*2, y: -2 });
+
+                    score += FRUIT_DATA[nextIdx].score;
+                    document.getElementById("score").innerText = `SCORE: ${score}`;
+
+                    // 次のフレーム（16ms後）には新しいフルーツのロックを解除する
+                    // ※0.1秒(100ms)だと長すぎたので、もっと短くします
+                    setTimeout(() => {
+                        mergingBodies.delete(newFruit.id);
+                        mergingBodies.delete(bodyA.id);
+                        mergingBodies.delete(bodyB.id);
+                    }, 50); 
+                }
+            });
+        }
+
         function createFruitBody(x, y, index, isWaiting=false) {
             const data = FRUIT_DATA[index];
             const body = Bodies.circle(x, y, data.radius, {
-                isStatic: isWaiting,
-                friction: 0.1,
-                frictionAir: 0.001,
-                restitution: 0.15,
+                isStatic: isWaiting, friction: 0.1, frictionAir: 0.001, restitution: 0.15,
                 collisionFilter: isWaiting ? { mask: 0x0000 } : { mask: 0xFFFFFFFF },
                 render: { sprite: { texture: createEmojiCircleTexture(data.emoji, data.radius, data.color) } }
             });
-            body.fruitIndex = index; // 判定用カスタムプロパティ
+            body.fruitIndex = index;
             return body;
         }
 
-        // 絵文字テクスチャ作成
         function createEmojiCircleTexture(emoji, radius, color) {
             const canvas = document.createElement('canvas');
             const size = radius * 3;
@@ -243,8 +181,7 @@
             ctx.beginPath(); ctx.arc(size/2, size/2, radius, 0, Math.PI * 2); ctx.fill();
             ctx.font = `${radius * 1.2}px serif`;
             ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-            ctx.fillStyle = "white";
-            ctx.fillText(emoji, size/2, size/2 + radius * 0.05);
+            ctx.fillStyle = "white"; ctx.fillText(emoji, size/2, size/2 + radius * 0.05);
             return canvas.toDataURL();
         }
 
@@ -259,7 +196,6 @@
             document.getElementById("next2").innerText = FRUIT_DATA[nextQueue[2]].emoji;
         }
 
-        // --- 操作（ドラッグ＆ドロップ） ---
         const container = document.getElementById("game-container");
         const moveAt = (e) => {
             if (!isDragging || !currentFruitBody || isGameOver) return;
@@ -267,12 +203,10 @@
             const clientX = (e.touches ? e.touches[0].clientX : e.clientX);
             let x = clientX - rect.left;
             const r = FRUIT_DATA[currentFruitBody.fruitIndex].radius;
-            // 盤面からはみ出さないように制限
             x = Math.max(r + 5, Math.min(x, canvasWidth - r - 5));
             Body.setPosition(currentFruitBody, { x: x, y: 35 });
         };
 
-        // イベント登録
         container.addEventListener("mousedown", (e) => { if(canDrop) { isDragging = true; moveAt(e); } });
         window.addEventListener("mousemove", moveAt);
         window.addEventListener("mouseup", () => { if(isDragging) { isDragging = false; drop(); }});
@@ -285,119 +219,53 @@
             canDrop = false;
             Body.setStatic(currentFruitBody, false);
             currentFruitBody.collisionFilter.mask = 0xFFFFFFFF;
-            // 落下時にわずかな回転（スピン）を与える
             Body.setAngularVelocity(currentFruitBody, (Math.random() - 0.5) * 0.1);
-
             currentFruitBody = null;
             nextQueue.shift();
             nextQueue.push(Math.floor(Math.random() * 4));
             updateNextUI();
-            
-            // 次の果物が出るまでの猶予
             setTimeout(() => { if(!isGameOver) { spawnWaitingFruit(); canDrop = true; } }, 800);
         }
 
-        // --- 合体ロジック ---
-        function handleCollision(event) {
-            event.pairs.forEach((pair) => {
-                const { bodyA, bodyB } = pair;
-                // 同じ果物、かつ落下済みなら合体
-                if (bodyA.fruitIndex !== undefined && bodyA.fruitIndex === bodyB.fruitIndex && !bodyA.isStatic && !bodyB.isStatic) {
-                    const nextIdx = bodyA.fruitIndex + 1;
-                    if (nextIdx < FRUIT_DATA.length) {
-                        const midX = (bodyA.position.x + bodyB.position.x) / 2;
-                        const midY = (bodyA.position.y + bodyB.position.y) / 2;
-
-                        Composite.remove(engine.world, [bodyA, bodyB]);
-                        
-                        const newFruit = createFruitBody(midX, midY, nextIdx);
-                        Composite.add(engine.world, newFruit);
-
-                        // 合体エフェクトとして少し弾けさせる
-                        Body.setVelocity(newFruit, { x: (Math.random()-0.5)*2, y: -2 });
-
-                        score += FRUIT_DATA[nextIdx].score;
-                        document.getElementById("score").innerText = `SCORE: ${score}`;
-                    }
-                }
-            });
-        }
-
-        // --- ゲームオーバー判定 ---
         function checkGameOver() {
             if (isGameOver) return;
             const bodies = Composite.allBodies(engine.world);
-            
-            // 「一部でもラインより上にある」判定
-            // 判定条件： (中心のy座標 - 半径) < ラインのy座標
-            const isAnyFruitOverflowing = bodies.some(b => {
-                // 1. 静止物（壁）ではない
-                // 2. 待機中の果物（yが極端に上にあるもの）ではない
-                // 3. 果物データを持っている
-                if (!b.isStatic && b.position.y > 45 && b.fruitIndex !== undefined) {
-                    const radius = FRUIT_DATA[b.fruitIndex].radius;
-                    // 果物の最上部がラインを越えているか判定
-                    return (b.position.y - radius) < DEADLINE_Y;
-                }
-                return false;
-            });
-
-            if (isAnyFruitOverflowing) {
-                // ラインを越えている間、タイマーがなければ開始
+            const overflowing = bodies.some(b => !b.isStatic && (b.position.y - (FRUIT_DATA[b.fruitIndex]?.radius || 0)) < DEADLINE_Y && b.position.y > 45 && b.fruitIndex !== undefined);
+            if (overflowing) {
                 if (!gameOverTimer) {
-                    // 視覚的なフィードバック（任意：ラインを赤く光らせるなど）
                     document.getElementById('deadline-line').style.borderTopStyle = "solid";
-                    document.getElementById('deadline-line').style.borderTopWidth = "3px";
-
                     gameOverTimer = setTimeout(() => {
-                        triggerGameOver();
-                    }, 3000); // 3秒間
+                        isGameOver = true;
+                        const isNew = checkAndSaveBestScore(score);
+                        document.getElementById("final-score").innerHTML = `SCORE: ${score}${isNew ? " (NEW!)" : ""}`;
+                        document.getElementById("overlay").style.display = "flex";
+                        Runner.stop(runner);
+                    }, 3000);
                 }
             } else {
-                // ラインを下回ったらタイマーをリセット
-                if (gameOverTimer) {
-                    clearTimeout(gameOverTimer);
-                    gameOverTimer = null;
-                    // 線の見た目を戻す
-                    document.getElementById('deadline-line').style.borderTopStyle = "dashed";
-                    document.getElementById('deadline-line').style.borderTopWidth = "2px";
-                }
+                clearTimeout(gameOverTimer);
+                gameOverTimer = null;
+                document.getElementById('deadline-line').style.borderTopStyle = "dashed";
             }
         }
 
-
-        function triggerGameOver() {
-            isGameOver = true;
-            
-            // スコアをチェックして保存
-            const isNewRecord = checkAndSaveBestScore(score);
-            
-            let finalMsg = `SCORE: ${score}`;
-            if (isNewRecord) finalMsg += " <span style='color:#f1c40f'>(NEW RECORD!)</span>";
-            
-            document.getElementById("final-score").innerHTML = finalMsg;
-            document.getElementById("overlay").style.display = "flex";
-            Runner.stop(runner);
+        function updateBestScoreDisplay() {
+            const savedBest = localStorage.getItem(SAVE_KEY) || 0;
+            document.getElementById("best-score").innerText = `BEST: ${savedBest}`;
         }
-
-        function resetGame() {
-            // キャンバスを掃除
-            const canvas = container.querySelector('canvas');
-            if (canvas) canvas.remove();
-            Runner.stop(runner);
-            init();
+        function checkAndSaveBestScore(currentScore) {
+            const savedBest = parseInt(localStorage.getItem(SAVE_KEY)) || 0;
+            if (currentScore > savedBest) { localStorage.setItem(SAVE_KEY, currentScore); updateBestScoreDisplay(); return true; }
+            return false;
         }
+        function resetGame() { const canvas = container.querySelector('canvas'); if (canvas) canvas.remove(); Runner.stop(runner); mergingBodies.clear(); init(); }
 
-        // 進化マップの生成
         const chart = document.getElementById('evolution-chart');
         chart.innerHTML = "";
-        FRUIT_DATA.forEach((d, i) => {
-            chart.innerHTML += d.emoji;
-            if(i < 9) chart.innerHTML += "<span class='evo-arrow'>></span>";
-        });
+        FRUIT_DATA.forEach((d, i) => { chart.innerHTML += d.emoji + (i < 9 ? ">" : ""); });
 
-        // --- 起動 ---
         init();
     </script>
 </body>
 </html>
+
