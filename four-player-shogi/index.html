@@ -337,7 +337,7 @@
 <script>
 // --- 基本定数 ---
 const SIZE = 9;
-const PIECE_VAL = { "玉": 1000000, "飛": 1500, "角": 1400, "龍": 2000, "馬": 1900, "金": 800, "銀": 700, "全": 800, "歩": 100, "と": 900, "香": 400, "杏": 800, "桂": 500, "圭": 800 };
+const PIECE_VAL = { "歩": 100, "と": 400, "香": 300, "杏": 600, "桂": 400, "圭": 600, "銀": 500, "全": 600, "金": 600, "角": 800, "馬": 1200, "飛": 1000, "龍": 1500, "玉": 15000 };
 const PROMOTE_MAP = { "歩": "と", "銀": "全", "飛": "龍", "角": "馬", "香": "杏", "桂": "圭" };
 const PLAYERS = [{ name: "南", class: "p0" }, { name: "西", class: "p1" }, { name: "北", class: "p2" }, { name: "東", class: "p3" }];
 
@@ -510,90 +510,54 @@ function getBestMove(b, me, h, d) {
     let allMoves = getAllMoves(b, me, h[me]);
     if (allMoves.length === 0) return null;
 
-    // --- 指し手のオーダリング（並び替え） ---
-    allMoves.sort((a, b) => {
-        const getMoveScore = (m) => {
-            let score = 0;
-            if (m.type === 'move') {
-                const p = board[m.fr][m.fc];
-                const target = board[m.tr][m.tc];
-                
-                // 1. 自分の王を守る手 (移動先が自玉の周囲8マスなら加点)
-                const myKing = findKing(board, me);
-                if (myKing) {
-                    const distToKing = Math.max(Math.abs(m.tr - myKing.r), Math.abs(m.tc - myKing.c));
-                    if (distToKing <= 1) score += 2000;
-                }
-
-                // 2. 相手の駒を取る手
-                if (target) {
-                    score += PIECE_VAL[target.type] + 1000;
-                }
-
-                // 3. 成る手
-                const isZone = (r, c, o) => (o === 0 ? r <= 2 : o === 1 ? c >= 6 : o === 2 ? r >= 6 : c <= 2);
-                if (!p.promoted && PROMOTE_MAP[p.type] && isZone(m.tr, m.tc, me)) {
-                    score += 500;
-                }
-
-                // 4. 生存している敵の王に近づく手 (ターゲット追撃)
-                let minTargetDist = 100; // 初期値（十分大きい数字）
-                for (let targetIdx = 0; targetIdx < 4; targetIdx++) {
-                    // 自分以外 かつ 生存しているプレイヤーの王を探す
-                    if (targetIdx !== me && !isDead[targetIdx]) {
-                        const enemyKing = findKing(board, targetIdx);
-                        if (enemyKing) {
-                            // 移動後の地点からその敵王までの距離（マンハッタン距離）
-                            const dist = Math.abs(m.tr - enemyKing.r) + Math.abs(m.tc - enemyKing.c);
-                            if (dist < minTargetDist) minTargetDist = dist;
-                        }
-                    }
-                }
-                // 距離が近い（minTargetDistが小さい）ほどスコアを高くする
-                // 最大距離は16(8+8)なので、(16 - 距離) * 10 で加点
-                score += (16 - minTargetDist) * 10;
-
-            } else if (m.type === 'drop') {
-                // 持ち駒を打つ手も玉の近くだけ少し評価
-                const myKing = findKing(board, me);
-                if (myKing) {
-                    const distToKing = Math.max(Math.abs(m.tr - myKing.r), Math.abs(m.tc - myKing.c));
-                    if (distToKing <= 1) score += 1500;
-                }
-            }
-            return score;
-        };
-        return getMoveScore(b) - getMoveScore(a); // スコアの高い順
-    });
-
-    let targetDepth = 4; 
-    let bestScore = -Infinity, bestMove = allMoves[0];
+    let bestScore = -Infinity;
+    let bestMove = allMoves[0];
 
     for (let m of allMoves) {
         const next = simMoveFast(b, m, me, h, d);
-        if (isCheck(next.b, me, d)) continue; 
-        
-        let score = minimax(next.b, (me + 1) % 4, targetDepth - 1, -Infinity, Infinity, me, next.h, next.d);
-        if (score > bestScore) {
-            bestScore = score;
+        if (isCheck(next.b, me, d)) continue;
+
+        let totalScoreForMove = 0;
+        let activeTargets = 0;
+
+        // 自分以外の生存者全員に対して個別にシミュレーション
+        for (let targetIdx = 0; targetIdx < 4; targetIdx++) {
+            if (targetIdx === me || d[targetIdx]) continue;
+
+            // me(自分) -> targetIdx -> me -> targetIdx の4手読み
+            let score = minimaxTargeted(next.b, targetIdx, 3, -Infinity, Infinity, me, targetIdx, next.h, next.d);
+            
+            totalScoreForMove += score;
+            activeTargets++;
+        }
+
+        // 平均スコア（または合計スコア）で比較
+        if (totalScoreForMove > bestScore) {
+            bestScore = totalScoreForMove;
             bestMove = m;
         }
     }
     return bestMove;
 }
 
-function minimax(b, t, depth, alpha, beta, me, h, d) {
-    if (d[me]) return -10000000;
+function minimaxTargeted(b, t, depth, alpha, beta, me, targetIdx, h, d) {
+    if (d[me]) return -10000000; // 自分が陥落したら最低評価
     if (depth === 0) return evalBoard(b, me, d, h);
 
-    const moves = getAllMoves(b, t, h[t]); 
-    if (moves.length === 0) return minimax(b, (t + 1) % 4, depth - 1, alpha, beta, me, h, d);
+    // 次の手番を「自分」と「ターゲット」で交互に入れ替える
+    const nextTurn = (t === me) ? targetIdx : me;
+    const moves = getAllMoves(b, t, h[t]);
+
+    if (moves.length === 0) {
+        // 指し手がない場合はパスして交代
+        return minimaxTargeted(b, nextTurn, depth - 1, alpha, beta, me, targetIdx, h, d);
+    }
 
     if (t === me) {
         let maxEval = -Infinity;
-        for (let i = 0; i < moves.length; i++) {
-            const next = simMoveFast(b, moves[i], t, h, d);
-            const val = minimax(next.b, (t + 1) % 4, depth - 1, alpha, beta, me, next.h, next.d);
+        for (let m of moves) {
+            const next = simMoveFast(b, m, t, h, d);
+            const val = minimaxTargeted(next.b, nextTurn, depth - 1, alpha, beta, me, targetIdx, next.h, next.d);
             maxEval = Math.max(maxEval, val);
             alpha = Math.max(alpha, maxEval);
             if (beta <= alpha) break;
@@ -601,11 +565,11 @@ function minimax(b, t, depth, alpha, beta, me, h, d) {
         return maxEval;
     } else {
         let minEval = Infinity;
-        // 他人の手番では、上位15手程度に絞ると3手読みが爆速になります
-        const limit = moves.length > 15 ? 15 : moves.length;
+        // 相手番は計算節約のため上位15手に絞る
+        const limit = Math.min(moves.length, 15);
         for (let i = 0; i < limit; i++) {
             const next = simMoveFast(b, moves[i], t, h, d);
-            const val = minimax(next.b, (t + 1) % 4, depth - 1, alpha, beta, me, next.h, next.d);
+            const val = minimaxTargeted(next.b, nextTurn, depth - 1, alpha, beta, me, targetIdx, next.h, next.d);
             minEval = Math.min(minEval, val);
             beta = Math.min(beta, minEval);
             if (beta <= alpha) break;
@@ -1071,18 +1035,43 @@ function simMoveFast(b, m, t, h, d, autoPromote = true) { // 第6引数を追加
 
 function evalBoard(b, me, d, h) {
     if (d[me]) return -10000000;
-    let s = 0;
-    for (let r=0; r<SIZE; r++) {
-        for (let c=0; c<SIZE; c++) {
-            const p = b[r][c]; if(!p) continue;
-            const val = PIECE_VAL[p.type];
-            if (p.owner === me) s += val;
-            else if (d[p.owner]) s += val * 0.5; // 脱落者の駒はボーナス
-            else s -= val * 0.5; // 生存敵の駒は脅威
+    
+    let score = 0;
+    const myKing = findKing(b, me);
+
+    for (let r = 0; r < SIZE; r++) {
+        for (let c = 0; c < SIZE; c++) {
+            const p = b[r][c];
+            if (!p) continue;
+
+            const val = PIECE_VAL[p.type] || 0;
+
+            if (p.owner === me) {
+                // 1. 駒の価値（盤上）
+                score += val;
+
+                // 2. 玉の堅さ（自玉の周りに味方がいれば加点）
+                if (myKing) {
+                    const dist = Math.max(Math.abs(r - myKing.r), Math.abs(c - myKing.c));
+                    if (dist <= 1) score += 200; // 玉の守備ボーナス
+                }
+            } else {
+                // 敵の駒
+                if (!d[p.owner]) {
+                    score -= val * 0.8; // 生存している敵の駒はマイナス
+                } else {
+                    score += val * 0.1; // 陥落したプレイヤーの駒が残っていれば拾う価値あり
+                }
+            }
         }
     }
-    h[me].forEach(p => s += PIECE_VAL[p] * 0.8);
-    return s;
+
+    // 3. 持ち駒の評価
+    h[me].forEach(type => {
+        score += PIECE_VAL[type] * 1.1; // 持ち駒は盤上より少し価値を高くする
+    });
+
+    return score;
 }
 
 function isCheck(b, owner, d) {
