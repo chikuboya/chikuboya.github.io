@@ -385,13 +385,15 @@ function initMenu() {
     container.innerHTML = "";
 
     // 1. モード選択（中央揃えを適用）
+    // initMenu関数内の該当箇所を以下に差し替え
     const modeDiv = document.createElement('div');
     modeDiv.style.marginBottom = "25px";
-    modeDiv.style.textAlign = "center"; // 文字とボタンを中央に
+    modeDiv.style.textAlign = "center";
     modeDiv.innerHTML = `
-        <div class="mode-selector" style="display: flex; justify-content: center; gap: 10px;">
-            <button class="opt-btn mode-btn active" id="btn-mode-A" onclick="setMode('patternA')">四國将棋<br><small>(桂香あり)</small></button>
-            <button class="opt-btn mode-btn" id="btn-mode-B" onclick="setMode('patternB')">四人将棋<br><small>(桂香なし)</small></button>
+        <div class="mode-selector" style="display: flex; justify-content: center; gap: 5px;">
+            <button class="opt-btn mode-btn active" id="btn-mode-A" onclick="setMode('patternA')">四國将棋<br><small>(金銀桂香)</small></button>
+            <button class="opt-btn mode-btn" id="btn-mode-B" onclick="setMode('patternB')">四人将棋<br><small>(金銀)</small></button>
+            <button class="opt-btn mode-btn" id="btn-mode-C" onclick="setMode('patternC')">四人将棋<br><small>(こち亀版)</small></button>
         </div>
         <input type="hidden" id="board-layout-select" value="patternA">
     `;
@@ -438,11 +440,11 @@ function initMenu() {
     container.appendChild(compassGrid);
 }
 
-// ボタン切り替え用の関数
 function setMode(val) {
     document.getElementById('board-layout-select').value = val;
     document.getElementById('btn-mode-A').classList.toggle('active', val === 'patternA');
     document.getElementById('btn-mode-B').classList.toggle('active', val === 'patternB');
+    document.getElementById('btn-mode-C').classList.toggle('active', val === 'patternC');
 }
 
 function setType(idx, val) {
@@ -471,35 +473,61 @@ function startGame() {
 }
 
 function initBoard() {
-    // 盤面をクリア
     const layout = document.getElementById('board-layout-select').value;
     const s = (r, c, t, o) => { board[r][c] = { type: t, owner: o, promoted: false }; };
+
     if (layout === "patternA") {
-    // 各プレイヤーの配置（画像のレイアウトを各視点に合わせて回転）
- // owner 0: 南 (右へ1つ → colを+1)
-s(8, 1, "香", 0); s(8, 2, "玉", 0); s(8, 3, "桂", 0); s(8, 4, "金", 0); s(8, 5, "銀", 0);
-s(7, 1, "歩", 0); s(7, 3, initialMainPieces[0], 0); s(7, 5, "歩", 0);
-s(6, 2, "歩", 0); s(6, 3, "歩", 0); s(6, 4, "歩", 0); s(8, 0, "歩", 0);
+        // --- 既存の四國将棋 (Pattern A) ---
+        // owner 0: 南 (全体的に左[col-]へ1つシフト)
+        s(8, 1, "歩", 0); s(8, 2, "金", 0); s(8, 3, "玉", 0); s(8, 4, "桂", 0); s(8, 5, "香", 0); s(8, 6, "銀", 0); s(8, 7, "歩", 0);
+        s(7, 2, "歩", 0); s(7, 4, initialMainPieces[0], 0); s(7, 6, "歩", 0);
+        s(6, 3, "歩", 0); s(6, 4, "歩", 0); s(6, 5, "歩", 0);
 
-// owner 1: 西 (下へ1つ → rowを+1)
-s(1, 0, "香", 1); s(2, 0, "玉", 1); s(3, 0, "桂", 1); s(4, 0, "金", 1); s(5, 0, "銀", 1);
-s(1, 1, "歩", 1); s(3, 1, initialMainPieces[1], 1); s(5, 1, "歩", 1);
-s(2, 2, "歩", 1); s(3, 2, "歩", 1); s(4, 2, "歩", 1); s(0, 0, "歩", 1);
+        // owner 1: 西 (全体的に上[row-]へ1つシフト)
+        s(1, 0, "歩", 1); s(2, 0, "金", 1); s(3, 0, "玉", 1); s(4, 0, "桂", 1); s(5, 0, "香", 1); s(6, 0, "銀", 1); s(7, 0, "歩", 1);
+        s(2, 1, "歩", 1); s(4, 1, initialMainPieces[1], 1); s(6, 1, "歩", 1);
+        s(3, 2, "歩", 1); s(4, 2, "歩", 1); s(5, 2, "歩", 1);
 
-// owner 2: 北 (左へ1つ → colを-1)
-s(0, 7, "香", 2); s(0, 6, "玉", 2); s(0, 5, "桂", 2); s(0, 4, "金", 2); s(0, 3, "銀", 2);
-s(1, 7, "歩", 2); s(1, 5, initialMainPieces[2], 2); s(1, 3, "歩", 2);
-s(2, 6, "歩", 2); s(2, 5, "歩", 2); s(2, 4, "歩", 2);  s(0, 8, "歩", 2);
+        // owner 2: 北 (全体的に右[col+]へ1つシフト)
+        s(0, 7, "歩", 2); s(0, 6, "金", 2); s(0, 5, "玉", 2); s(0, 4, "桂", 2); s(0, 3, "香", 2); s(0, 2, "銀", 2); s(0, 1, "歩", 2);
+        s(1, 6, "歩", 2); s(1, 4, initialMainPieces[2], 2); s(1, 2, "歩", 2);
+        s(2, 5, "歩", 2); s(2, 4, "歩", 2); s(2, 3, "歩", 2);
 
-// owner 3: 東 (上へ1つ → rowを-1)
-s(7, 8, "香", 3); s(6, 8, "玉", 3); s(5, 8, "桂", 3); s(4, 8, "金", 3); s(3, 8, "銀", 3);
-s(7, 7, "歩", 3); s(5, 7, initialMainPieces[3], 3); s(3, 7, "歩", 3);
-s(6, 6, "歩", 3); s(5, 6, "歩", 3); s(4, 6, "歩", 3); s(8, 8, "歩", 3);
-    } else {
-    s(8,4,"玉",0); s(8,3,"金",0); s(8,5,"金",0); s(8,2,"銀",0); s(8,6,"銀",0); s(7,4,initialMainPieces[0],0); s(7,3,"歩",0); s(7,5,"歩",0); s(6,4,"歩",0);
-    s(4,0,"玉",1); s(3,0,"金",1); s(5,0,"金",1); s(2,0,"銀",1); s(6,0,"銀",1); s(4,1,initialMainPieces[1],1); s(3,1,"歩",1); s(5,1,"歩",1); s(4,2,"歩",1);
-    s(0,4,"玉",2); s(0,5,"金",2); s(0,3,"金",2); s(0,6,"銀",2); s(0,2,"銀",2); s(1,4,initialMainPieces[2],2); s(1,3,"歩",2); s(1,5,"歩",2); s(2,4,"歩",2);
-    s(4,8,"玉",3); s(5,8,"金",3); s(3,8,"金",3); s(6,8,"銀",3); s(2,8,"銀",3); s(4,7,initialMainPieces[3],3); s(5,7,"歩",3); s(3,7,"歩",3); s(4,6,"歩",3);
+        // owner 3: 東 (全体的に下[row+]へ1つシフト)
+        s(7, 8, "歩", 3); s(6, 8, "金", 3); s(5, 8, "玉", 3); s(4, 8, "桂", 3); s(3, 8, "香", 3); s(2, 8, "銀", 3); s(1, 8, "歩", 3);
+        s(6, 7, "歩", 3); s(4, 7, initialMainPieces[3], 3); s(2, 7, "歩", 3);
+        s(5, 6, "歩", 3); s(4, 6, "歩", 3); s(3, 6, "歩", 3);
+
+    } else if (layout === "patternB") {
+        // --- 既存の四人将棋 (Pattern B) ---
+        s(8,4,"玉",0); s(8,3,"金",0); s(8,5,"金",0); s(8,2,"銀",0); s(8,6,"銀",0); s(7,4,initialMainPieces[0],0); s(7,3,"歩",0); s(7,5,"歩",0); s(6,4,"歩",0);
+        s(4,0,"玉",1); s(3,0,"金",1); s(5,0,"金",1); s(2,0,"銀",1); s(6,0,"銀",1); s(4,1,initialMainPieces[1],1); s(3,1,"歩",1); s(5,1,"歩",1); s(4,2,"歩",1);
+        s(0,4,"玉",2); s(0,5,"金",2); s(0,3,"金",2); s(0,6,"銀",2); s(0,2,"銀",2); s(1,4,initialMainPieces[2],2); s(1,3,"歩",2); s(1,5,"歩",2); s(2,4,"歩",2);
+        s(4,8,"玉",3); s(5,8,"金",3); s(3,8,"金",3); s(6,8,"銀",3); s(2,8,"銀",3); s(4,7,initialMainPieces[3],3); s(5,7,"歩",3); s(3,7,"歩",3); s(4,6,"歩",3);
+
+        // ... (西・北・東の配置もここに入れる) ...
+
+    } else if (layout === "patternC") {
+        // --- 追加：四人将棋（こち亀版） ---
+        // owner 0: 南
+        s(8, 0, "香", 0); s(8, 1, "桂", 0); s(8, 2, "銀", 0); s(8, 3, "金", 0); s(8, 4, "玉", 0); s(8, 5, "金", 0); s(8, 6, "銀", 0); s(8, 7, "桂", 0);
+        s(7, 1, "角", 0); s(7, 6, "飛", 0); 
+        s(6, 3, "歩", 0); s(6, 4, "歩", 0); s(6, 5, "歩", 0); s(6, 6, "歩", 0); s(6, 7, "歩", 0);
+
+        // owner 1: 西
+        s(0, 0, "香", 1); s(1, 0, "桂", 1); s(2, 0, "銀", 1); s(3, 0, "金", 1); s(4, 0, "玉", 1); s(5, 0, "金", 1); s(6, 0, "銀", 1); s(7, 0, "桂", 1);
+        s(1, 1, "角", 1); s(6, 1, "飛", 1);
+        s(3, 2, "歩", 1); s(4, 2, "歩", 1); s(5, 2, "歩", 1); s(6, 2, "歩", 1); s(7, 2, "歩", 1);
+
+        // owner 2: 北
+        s(0, 8, "香", 2); s(0, 7, "桂", 2); s(0, 6, "銀", 2); s(0, 5, "金", 2); s(0, 4, "玉", 2); s(0, 3, "金", 2); s(0, 2, "銀", 2); s(0, 1, "桂", 2);
+        s(1, 7, "角", 2); s(1, 2, "飛", 2);
+        s(2, 5, "歩", 2); s(2, 4, "歩", 2); s(2, 3, "歩", 2); s(2, 2, "歩", 2); s(2, 1, "歩", 2);
+
+        // owner 3: 東
+        s(8, 8, "香", 3); s(7, 8, "桂", 3); s(6, 8, "銀", 3); s(5, 8, "金", 3); s(4, 8, "玉", 3); s(3, 8, "金", 3); s(2, 8, "銀", 3); s(1, 8, "桂", 3);
+        s(7, 7, "角", 3); s(1, 7, "飛", 3);
+        s(6, 7, "歩", 3); s(5, 6, "歩", 3); s(4, 6, "歩", 3); s(3, 6, "歩", 3); s(2, 7, "歩", 3);
     }
     render();
 }
@@ -593,8 +621,8 @@ function minimaxTargeted(b, t, depth, alpha, beta, me, targetIdx, h, d) {
         return maxEval;
     } else {
         let minEval = Infinity;
-        // 相手番は計算節約のため上位15手に絞る
-        const limit = Math.min(moves.length, 15);
+        // 相手番は計算節約のため上位20手に絞る
+        const limit = Math.min(moves.length, 20);
         for (let i = 0; i < limit; i++) {
             const next = simMoveFast(b, moves[i], t, h, d);
             const val = minimaxTargeted(next.b, nextTurn, depth - 1, alpha, beta, me, targetIdx, next.h, next.d);
