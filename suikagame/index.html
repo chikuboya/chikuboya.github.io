@@ -4,16 +4,29 @@
     <meta charset="UTF-8">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3649897440139100"
      crossorigin="anonymous"></script>    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>スイカゲーム</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
     <style>
-        body {
-            margin: 0; padding: 0; display: flex; justify-content: center; align-items: center;
-            height: 100vh; background-color: #f7e9d7; color: #333; font-family: sans-serif;
-            overflow: hidden; touch-action: none;
+        /* 修正：左右のスクロールを完全に禁止 */
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
         }
-        #main-wrapper { display: flex; flex-direction: column; align-items: center; padding: 0 20px; width: 100%; max-width: 400px; box-sizing: border-box; }
+
+        body {
+            margin: 0; padding: 20px 0; display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh; background-color: #f7e9d7; color: #333; font-family: sans-serif;
+            overflow-y: auto; /* 上下スクロールのみ許可 */
+            touch-action: manipulation;
+        }
+
+        #main-wrapper { 
+            display: flex; flex-direction: column; align-items: center; 
+            padding: 0 10px; width: 100%; max-width: 400px; box-sizing: border-box; 
+        }
+
         #top-ui {
             width: 100%; height: 75px; display: flex; justify-content: space-between; align-items: center;
             margin-bottom: 10px; background: rgba(255,255,255,0.6); padding: 0 15px; border-radius: 20px; box-sizing: border-box;
@@ -22,15 +35,38 @@
         #score { font-size: 18px; font-weight: bold; color: #e67e22; }
         #best-score { font-size: 11px; color: #7f8c8d; font-weight: bold; }
         #today-best-score { font-size: 11px; color: #2ecc71; font-weight: bold; }
+
         #next-container { display: flex; gap: 8px; }
         .next-group { display: flex; flex-direction: column; align-items: center; gap: 2px; }
         .next-slot { width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; background: white; border-radius: 50%; font-size: 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .label { font-size: 9px; color: #7f8c8d; font-weight: bold; }
-        #game-container { position: relative; width: 320px; height: 480px; border: 8px solid #8b4513; border-radius: 15px; background: #fff; box-shadow: 0 15px 35px rgba(0,0,0,0.2); overflow: hidden; }
+
+        /* 盤面サイズを固定 */
+        #game-container { 
+            position: relative; 
+            width: 320px; height: 480px; 
+            border: 8px solid #8b4513; border-radius: 15px; 
+            background: #fff; box-shadow: 0 15px 35px rgba(0,0,0,0.2); 
+            overflow: hidden; 
+            touch-action: none; /* ゲーム盤面内でのスクロール暴発を防止 */
+        }
+
         #deadline-line { position: absolute; left: 0; width: 100%; height: 0; border-top: 2px dashed #ff4d4d; z-index: 5; pointer-events: none; }
+        
         #overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; flex-direction: column; justify-content: center; align-items: center; color: white; z-index: 10; }
         #retry-btn { padding: 12px 25px; font-size: 18px; background: #2ecc71; color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; }
+
         #evolution-chart { margin-top: -5px; display: flex; gap: 2px; align-items: center; font-size: 14px; background: rgba(255,255,255,0.4); padding: 8px; border-radius: 12px; }
+
+        footer {
+            margin-top: 30px;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #7f8c8d;
+            width: 100%;
+        }
+        footer a { color: #8b4513; text-decoration: none; margin: 0 5px; }
     </style>
 </head>
 <body>
@@ -58,9 +94,19 @@
         <div id="evolution-chart"></div>
     </div>
 
-    <script>
-        const { Engine, Render, Runner, Bodies, Composite, Events, Body } = Matter;
+    <footer>
+        <p>
+            <a href="../about.html">運営者情報</a> |
+            <a href="../privacy.html">プライバシーポリシー</a> | 
+            <a href="../contact.html">お問い合わせ</a> |
+            <a href="/">ホーム</a>
+        </p>
+        <p>&copy; 2026 ChikuGames</p>
+    </footer>
 
+    <script>
+        // ロジック部分は前回から変更なし
+        const { Engine, Render, Runner, Bodies, Composite, Events, Body } = Matter;
         const canvasWidth = 320; 
         const canvasHeight = 480;
         const DEADLINE_Y = 70;
@@ -130,15 +176,12 @@
                     mergingBodies.add(bodyB.id);
                     const midX = (bodyA.position.x + bodyB.position.x) / 2;
                     const midY = (bodyA.position.y + bodyB.position.y) / 2;
-
                     Composite.remove(engine.world, [bodyA, bodyB]);
                     const newFruit = createFruitBody(midX, midY, nextIdx);
                     Composite.add(engine.world, newFruit);
                     Body.setVelocity(newFruit, { x: (Math.random()-0.5)*2, y: -2 });
-
                     score += FRUIT_DATA[nextIdx].score;
                     document.getElementById("score").innerText = `SCORE: ${score}`;
-
                     setTimeout(() => {
                         mergingBodies.delete(newFruit.id);
                         mergingBodies.delete(bodyA.id);
@@ -236,7 +279,6 @@
             }
         }
 
-        // --- スコア保存ロジック（ハイスコア & 今日のハイスコア） ---
         function getTodayString() {
             return new Date().toISOString().split('T')[0];
         }
@@ -244,7 +286,6 @@
         function updateBestScoreDisplay() {
             const savedBest = localStorage.getItem(SAVE_KEY) || 0;
             document.getElementById("best-score").innerText = `BEST: ${savedBest}`;
-
             const todayStr = getTodayString();
             const todayData = JSON.parse(localStorage.getItem(TODAY_SAVE_KEY) || "{}");
             const todayBest = todayData.date === todayStr ? todayData.score : 0;
@@ -252,13 +293,8 @@
         }
 
         function checkAndSaveBestScore(currentScore) {
-            // 全期間ベスト
             const savedBest = parseInt(localStorage.getItem(SAVE_KEY)) || 0;
-            if (currentScore > savedBest) {
-                localStorage.setItem(SAVE_KEY, currentScore);
-            }
-
-            // 今日ベスト
+            if (currentScore > savedBest) { localStorage.setItem(SAVE_KEY, currentScore); }
             const todayStr = getTodayString();
             const todayData = JSON.parse(localStorage.getItem(TODAY_SAVE_KEY) || "{}");
             if (todayData.date !== todayStr || currentScore > todayData.score) {
@@ -267,7 +303,13 @@
             updateBestScoreDisplay();
         }
 
-        function resetGame() { const canvas = container.querySelector('canvas'); if (canvas) canvas.remove(); Runner.stop(runner); mergingBodies.clear(); init(); }
+        function resetGame() { 
+            const canvas = container.querySelector('canvas'); 
+            if (canvas) canvas.remove(); 
+            if (runner) Runner.stop(runner); 
+            mergingBodies.clear(); 
+            init(); 
+        }
 
         const chart = document.getElementById('evolution-chart');
         chart.innerHTML = "";
@@ -275,16 +317,5 @@
 
         init();
     </script>
-    
-<footer>
-    <p>
-        <a href="../about.html">運営者情報</a> |
-        <a href="../privacy.html">プライバシーポリシー</a> | 
-        <a href="../contact.html">お問い合わせ</a> |
-        <a href="/">ホーム</a>
-    </p>
-    <p>&copy; 2026 ChikuGames</p>
-</footer>
-    
 </body>
 </html>
