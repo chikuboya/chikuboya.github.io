@@ -1,9 +1,89 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://chikuboya.github.io/</loc></url>
-  <url><loc>https://chikuboya.github.io/story.html</loc></url>
-  <url><loc>https://chikuboya.github.io/thoughts.html</loc></url>
-  <url><loc>https://chikuboya.github.io/nip/</loc></url>
-  <url><loc>https://chikuboya.github.io/four-player-shogi/</loc></url>
-  <url><loc>https://chikuboya.github.io/100-fugo/</loc></url>
+This XML file does not appear to have any style information associated with it. The document tree is shown below.
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!--  created with Free Online Sitemap Generator www.xml-sitemaps.com  -->
+<url>
+<loc>https://chikuboya.github.io/</loc>
+<lastmod>2026-04-18T05:05:18+00:00</lastmod>
+<priority>1.00</priority>
+</url>
+<url>
+<loc>https://chikuboya.github.io/nip/</loc>
+<lastmod>2026-04-18T05:05:18+00:00</lastmod>
+<priority>0.80</priority>
+</url>
+<url>
+<loc>https://chikuboya.github.io/nip/rule.html</loc>
+<lastmod>2026-04-18T05:05:18+00:00</lastmod>
+<priority>0.80</priority>
+</url>
+<url>
+<loc>https://chikuboya.github.io/nip/strategy.html</loc>
+<lastmod>2026-04-18T05:05:18+00:00</lastmod>
+<priority>0.80</priority>
+</url>
+<url>
+<loc>https://chikuboya.github.io/four-player-shogi/</loc>
+<lastmod>2026-04-18T05:05:18+00:00</lastmod>
+<priority>0.80</priority>
+</url>
+<url>
+<loc>https://chikuboya.github.io/four-player-shogi/rule.html</loc>
+<lastmod>2026-04-18T05:05:18+00:00</lastmod>
+<priority>0.80</priority>
+</url>
+<url>
+<loc>https://chikuboya.github.io/four-player-shogi/strategy.html</loc>
+<lastmod>2026-04-18T05:05:18+00:00</lastmod>
+<priority>0.80</priority>
+</url>
+<url>
+<loc>https://chikuboya.github.io/100-fugo/</loc>
+<lastmod>2026-04-18T05:05:18+00:00</lastmod>
+<priority>0.80</priority>
+</url>
+<url>
+<loc>https://chikuboya.github.io/100-fugo/rule.html</loc>
+<lastmod>2026-04-18T05:05:18+00:00</lastmod>
+<priority>0.80</priority>
+</url>
+<url>
+<loc>https://chikuboya.github.io/100-fugo/strategy.html</loc>
+<lastmod>2026-04-18T05:05:18+00:00</lastmod>
+<priority>0.80</priority>
+</url>
+<url>
+<loc>https://chikuboya.github.io/suikagame/</loc>
+<lastmod>2026-04-18T05:05:18+00:00</lastmod>
+<priority>0.80</priority>
+</url>
+<url>
+<loc>https://chikuboya.github.io/thoughts.html</loc>
+<lastmod>2026-04-18T05:05:18+00:00</lastmod>
+<priority>0.80</priority>
+</url>
+<url>
+<loc>https://chikuboya.github.io/story.html</loc>
+<lastmod>2026-04-18T05:05:18+00:00</lastmod>
+<priority>0.80</priority>
+</url>
+<url>
+<loc>https://chikuboya.github.io/about.html</loc>
+<lastmod>2026-04-18T05:05:18+00:00</lastmod>
+<priority>0.80</priority>
+</url>
+<url>
+<loc>https://chikuboya.github.io/privacy.html</loc>
+<lastmod>2026-04-18T05:05:18+00:00</lastmod>
+<priority>0.80</priority>
+</url>
+<url>
+<loc>https://chikuboya.github.io/contact.html</loc>
+<lastmod>2026-04-18T05:05:18+00:00</lastmod>
+<priority>0.80</priority>
+</url>
+<url>
+<loc>https://chikuboya.github.io/index.html</loc>
+<lastmod>2026-04-18T05:05:18+00:00</lastmod>
+<priority>0.64</priority>
+</url>
 </urlset>
