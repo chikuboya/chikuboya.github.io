@@ -118,9 +118,9 @@
             { emoji: '🍓', radius: 20, score: 4, color: '#ffb3ba' },
             { emoji: '🍇', radius: 28, score: 6, color: '#9b59b6' },
             { emoji: '🍊', radius: 34, score: 10, color: '#f39c12' },
-            { emoji: '🍎', radius: 42, score: 15, color: '#e67e22' },
-            { emoji: '🍐', radius: 52, score: 20, color: '#e74c3c' },
-            { emoji: '🍍', radius: 64, score: 28, color: '#f1c40f' },
+            { emoji: '🍍', radius: 42, score: 15, color: '#e67e22' },
+            { emoji: '🍎', radius: 52, score: 20, color: '#e74c3c' },
+            { emoji: '🍐', radius: 64, score: 28, color: '#f1c40f' },
             { emoji: '🍑', radius: 78, score: 36, color: '#ffc0cb' },
             { emoji: '🍈', radius: 92, score: 45, color: '#2ecc71' },
             { emoji: '🍉', radius: 115, score: 60, color: '#27ae60' },
@@ -166,27 +166,60 @@
         function handleCollision(event) {
             event.pairs.forEach((pair) => {
                 const { bodyA, bodyB } = pair;
+
+                // フルーツ以外、または異なる種類がぶつかった場合は何もしない
                 if (bodyA.fruitIndex === undefined || bodyA.fruitIndex !== bodyB.fruitIndex) return;
+                
+                // すでに合体処理中の場合は重複を避ける
                 if (mergingBodies.has(bodyA.id) || mergingBodies.has(bodyB.id)) return;
+                
+                // 静止物（壁）との衝突は除外
                 if (bodyA.isStatic || bodyB.isStatic) return;
 
                 const nextIdx = bodyA.fruitIndex + 1;
+
+                // 通常のシンカ（スイカ未満）
                 if (nextIdx < FRUIT_DATA.length) {
                     mergingBodies.add(bodyA.id);
                     mergingBodies.add(bodyB.id);
                     const midX = (bodyA.position.x + bodyB.position.x) / 2;
                     const midY = (bodyA.position.y + bodyB.position.y) / 2;
+
                     Composite.remove(engine.world, [bodyA, bodyB]);
+
                     const newFruit = createFruitBody(midX, midY, nextIdx);
                     Composite.add(engine.world, newFruit);
-                    Body.setVelocity(newFruit, { x: (Math.random()-0.5)*2, y: -2 });
+                    
+                    // 出現時に少し跳ねさせる演出
+                    Body.setVelocity(newFruit, { x: (Math.random() - 0.5) * 2, y: -2 });
+                    
                     score += FRUIT_DATA[nextIdx].score;
                     document.getElementById("score").innerText = `SCORE: ${score}`;
+
                     setTimeout(() => {
                         mergingBodies.delete(newFruit.id);
                         mergingBodies.delete(bodyA.id);
                         mergingBodies.delete(bodyB.id);
-                    }, 50); 
+                    }, 50);
+
+                } 
+                // スイカ同士がぶつかった場合（消滅処理）
+                else if (bodyA.fruitIndex === FRUIT_DATA.length - 1) {
+                    mergingBodies.add(bodyA.id);
+                    mergingBodies.add(bodyB.id);
+
+                    // 両方のスイカを削除
+                    Composite.remove(engine.world, [bodyA, bodyB]);
+
+                    // スイカ消滅ボーナス（例として100点）を加算
+                    score += 100;
+                    document.getElementById("score").innerText = `SCORE: ${score}`;
+
+                    // IDをセットから削除
+                    setTimeout(() => {
+                        mergingBodies.delete(bodyA.id);
+                        mergingBodies.delete(bodyB.id);
+                    }, 50);
                 }
             });
         }
