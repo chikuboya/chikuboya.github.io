@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3649897440139100"
      crossorigin="anonymous"></script>
-    <meta name="description" content="新感覚ボードゲーム『NIP（円形リバーシ）』の公式ルールガイド。一番外側のマスが繋がっている「円周構造」による大逆転の仕組みや、角のない盤面での攻略のコツを画像付きで詳しく解説します。">
-
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>円形リバーシ「NIP」のルール・遊び方｜角のないオセロの必勝法 | ChikuGames</title>
+    <title>NIP（円形リバーシ） ルールガイド | ChikuGames</title>
     
     <style>
         body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; line-height: 1.8; color: #333; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #fcfcfc; }
@@ -47,7 +45,8 @@
     <section>
         <h2>2. 基本的な遊び方</h2>
         <ul>
-            <li><strong>対局の流れ：</strong> 黒（先手）と白（後手）が交互に石を置いていきます。自分の石で相手の石を挟むと、自分の色に塗り替えることができます。</li>
+            <li><strong>対局の流れ：</strong> 中央に黒石・白石それぞれ２マスずつ計4マス石が置かれた初期配置からスタートします。黒（先手）と白（後手）が交互に石を置いていきます。自分の石で相手の石を挟むと、自分の色に塗り替えることができます。ただし自分の手番では、「相手の石を1枚以上挟める場所」にしか石を置くことができません。</li>
+            <li><strong>挟める方向：</strong> 普通のオセロは縦・横・斜めの合計8方向が挟める方向ですが、NIPではこれに加えて「円周方向」も挟むことができます。1つの石を置くことで、同時に複数の方向で相手を挟んだ場合、それらすべての石が裏返ります。ただし、「裏返った石によってさらに別の石が裏返る」という連鎖反応は起きません。あくまで、新しく置いた1手によって直接挟まれた石のみが変化します。</li>
             <li><strong>パス：</strong> 自分の手番で石を置ける場所がない場合は、自動的にパスとなります。</li>
             <li><strong>勝利条件：</strong> 盤面がすべて埋まるか、両者ともに打てる場所がなくなった時点で対局終了です。最終的に<span class="highlight">盤面の石の数が多いプレイヤーの勝利</span>となります。</li>
         </ul>
@@ -55,18 +54,18 @@
 
     <section>
         <h2>3. 特殊ルール：円周の連続性</h2>
-        <p>一番外側の「円周」にある20マスは、時計回り・反時計回りに行き止まりなく繋がっています。</p>
+        <p>一番外側の「円周」にある20マスは、時計回り・反時計回りに行き止まりなく繋がっています。円周の内側であるインナーエリアでの戦いは通常のリバーシに近い感覚ですが、円周エリアに石が及んだ瞬間、ゲームの性質が激変します。</p>
         
         <h3>● 円周で挟む</h3>
         <p>外周に石を置いた際、その円周に沿って時計回り、または反時計回りに相手の石を挟んでいる場合、それらをすべて裏返すことができます。これにより、一見挟まれていないような場所からでも、円を一周するようにして大量逆転が可能です。</p>
         
         <div class="image-comparison">
             <div class="image-box">
-                <img src="img/enshu-torikata-mae.png" alt="円形リバーシNIPで外周に石を置いて相手を挟む前の盤面">
+                <img src="img/enshu-torikata-mae.png" alt="円周で挟む前">
                 <p class="image-caption">【挟む前】</p>
             </div>
             <div class="image-box">
-                <img src="img/enshu-torikata-ato.png" alt="円形リバーシNIPで外周に石を置いて相手を挟んだ後の盤面">
+                <img src="img/enshu-torikata-ato.png" alt="円周で挟んだ後">
                 <p class="image-caption">【挟んだ後】一気に裏返る</p>
             </div>
         </div>
@@ -76,11 +75,11 @@
         
         <div class="image-comparison">
             <div class="image-box">
-                <img src="img/enshu-saigo-allblack-mae.png" alt="円形リバーシNIPで外周が全て相手の石のときの残り1マスの空きマスに自分の石を置く前の盤面">
+                <img src="img/enshu-saigo-allblack-mae.png" alt="全黒の空きマスに置く前">
                 <p class="image-caption">【置く前】周囲はすべて黒</p>
             </div>
             <div class="image-box">
-                <img src="img/enshu-saigo-allblack-ato.png" alt="円形リバーシNIPで外周が全て相手の石のときの残り1マスの空きマスに自分の石を置いた後の盤面">
+                <img src="img/enshu-saigo-allblack-ato.png" alt="全黒の空きマスに置いた後">
                 <p class="image-caption">【置いた後】挟めないので変化なし</p>
             </div>
         </div>
@@ -90,11 +89,11 @@
         
         <div class="image-comparison">
             <div class="image-box">
-                <img src="img/enshu-saigo-blackwhite-mae.png" alt="円形リバーシNIPで外周が自分と相手の石が混在しているときの残り1マスの空きマスに自分の石を置く前の盤面">
+                <img src="img/enshu-saigo-blackwhite-mae.png" alt="白黒混在の空きマスに置く前">
                 <p class="image-caption">【置く前】白と黒が混ざっている</p>
             </div>
             <div class="image-box">
-                <img src="img/enshu-saigo-blackwhite-ato.png" alt="円形リバーシNIPで外周が自分と相手の石が混在しているときの残り1マスの空きマスに自分の石を置いた後の盤面">
+                <img src="img/enshu-saigo-blackwhite-ato.png" alt="白黒混在の空きマスに置いた後">
                 <p class="image-caption">【置いた後】次の白石までを裏返す</p>
             </div>
         </div>
@@ -120,28 +119,6 @@
     </p>
     <p>&copy; 2026 ChikuGames</p>
 </footer>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [{
-    "@type": "Question",
-    "name": "NIPと普通のリバーシの違いは何ですか？",
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "最大の違いは盤面の外周が繋がっている『円周構造』です。角が存在せず、円を一周するように石を挟んで裏返すことができます。"
-    }
-  },
-  {
-    "@type": "Question",
-    "name": "円周で石を裏返せないのはどんな時ですか？",
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "石を置いた先に自分の石が一つもない場合（挟めていない状態）は、裏返すことができません。"
-    }
-  }]
-}
-</script>
 
 </body>
 </html>
