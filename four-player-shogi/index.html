@@ -438,6 +438,7 @@ function initMenu() {
         compassGrid.appendChild(node);
     });
     container.appendChild(compassGrid);
+    setMode(document.getElementById('board-layout-select').value);
 }
 
 function setMode(val) {
@@ -445,6 +446,23 @@ function setMode(val) {
     document.getElementById('btn-mode-A').classList.toggle('active', val === 'patternA');
     document.getElementById('btn-mode-B').classList.toggle('active', val === 'patternB');
     document.getElementById('btn-mode-C').classList.toggle('active', val === 'patternC');
+
+    // --- ここから追加：飛車角ボタンの制御 ---
+    const isPatternC = (val === 'patternC');
+    for (let i = 0; i < 4; i++) {
+        const btnH = document.getElementById(`p-piece-h-${i}`);
+        const btnK = document.getElementById(`p-piece-k-${i}`);
+        
+        if (btnH && btnK) {
+            // こち亀版なら無効化(true)、それ以外なら有効化(false)
+            btnH.disabled = isPatternC;
+            btnK.disabled = isPatternC;
+
+            // 見た目のフィードバック（半透明化）
+            btnH.style.opacity = isPatternC ? "0.4" : "1";
+            btnK.style.opacity = isPatternC ? "0.4" : "1";
+        }
+    }
 }
 
 function setType(idx, val) {
@@ -526,8 +544,8 @@ function initBoard() {
 
         // owner 3: 東
         s(8, 8, "香", 3); s(7, 8, "桂", 3); s(6, 8, "銀", 3); s(5, 8, "金", 3); s(4, 8, "玉", 3); s(3, 8, "金", 3); s(2, 8, "銀", 3); s(1, 8, "桂", 3);
-        s(7, 7, "角", 3); s(2, 7, "飛", 3);
-        s(5, 6, "歩", 3); s(4, 6, "歩", 3); s(3, 6, "歩", 3); s(2, 6, "歩", 3); s(1, 6, "歩", 3);
+        s(7, 7, "角", 3); s(1, 7, "飛", 3);
+        s(6, 7, "歩", 3); s(5, 6, "歩", 3); s(4, 6, "歩", 3); s(3, 6, "歩", 3); s(2, 7, "歩", 3);
     }
     render();
 }
